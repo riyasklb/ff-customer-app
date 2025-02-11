@@ -447,8 +447,8 @@ class _LoginAccountState extends State<LoginAccount> {
             decoration: InputDecoration(
               border: InputBorder.none,
               isDense: true,
-              hintStyle: TextStyle(color: Colors.grey[300]),
-              hintText: "9999999999",
+              hintStyle: TextStyle(color: Theme.of(context).hintColor),
+              hintText: "Mobile Number",
             ),
           ),
         )
@@ -497,7 +497,7 @@ class _LoginAccountState extends State<LoginAccount> {
         MessageType.warning,
       );
       return false;
-    } else if (mobileValidate != null && edtPhoneNumber.text.length > 15) {
+    } else if (edtPhoneNumber.text.length > 15) {
       showMessage(
         context,
         getTranslatedValue(
@@ -523,6 +523,25 @@ class _LoginAccountState extends State<LoginAccount> {
     }
   }
 
+  String getFriendlyErrorMessage(String errorCode) {
+    switch (errorCode) {
+      case 'invalid-verification-code':
+        return 'The verification code is incorrect. Please try again.';
+      case 'invalid-phone-number':
+        return 'The phone number is invalid. Please check and try again.';
+      case 'quota-exceeded':
+        return 'SMS quota exceeded. Try again later.';
+      case 'too-many-requests':
+        return 'Too many attempts. Please wait and try again.';
+      case 'network-request-failed':
+        return 'Network error. Please check your connection.';
+      case 'session-expired':
+        return 'The verification session has expired. Please request a new code.';
+      default:
+        return 'Something went wrong. Please try again.';
+    }
+  }
+
   firebaseLoginProcess() async {
     authProvider == AuthProviders.phone;
     setState(() {});
@@ -533,9 +552,12 @@ class _LoginAccountState extends State<LoginAccount> {
           phoneNumber: '${selectedCountryCode!.dialCode}${edtPhoneNumber.text}',
           verificationCompleted: (PhoneAuthCredential credential) {},
           verificationFailed: (FirebaseAuthException e) {
+            print('Message is ------------' + e.code);
+            String errorMessage = getFriendlyErrorMessage(e.code);
+
             showMessage(
               context,
-              e.message!,
+              errorMessage,
               MessageType.warning,
             );
 

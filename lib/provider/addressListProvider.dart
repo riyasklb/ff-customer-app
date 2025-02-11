@@ -18,7 +18,8 @@ class AddressProvider extends ChangeNotifier {
   int offset = 0;
   int selectedAddressId = 0;
 
-  getAddressProvider({required BuildContext context}) async {
+  getAddressProvider(
+      {required BuildContext context, required String addressId}) async {
     if (offset == 0) {
       addressState = AddressState.loading;
     } else {
@@ -41,9 +42,11 @@ class AddressProvider extends ChangeNotifier {
         List<UserAddressData> tempAddresses = (getData['data'] as List)
             .map((e) => UserAddressData.fromJson(Map.from(e)))
             .toList();
+        print('id set as ${addressId}');
 
         if (offset == 0) {
-          selectedAddressId = int.parse(tempAddresses[0].id.toString());
+          selectedAddressId = int.parse(
+              addressId == 'null' ? tempAddresses[0].id.toString() : addressId);
         }
 
         addresses.addAll(tempAddresses);
@@ -111,11 +114,62 @@ class AddressProvider extends ChangeNotifier {
     }
   }
 
-  void addOrUpdateAddress(
-      {required BuildContext context,
-      var address,
-      required Map<String, String> params,
-      required Function function}) async {
+  // void addOrUpdateAddress(
+  //     {required BuildContext context,
+  //     var address,
+  //     required Map<String, String> params,
+  //     required Function function}) async {
+  //   addressState = AddressState.editing;
+  //   notifyListeners();
+
+  //   try {
+  //     Map<String, dynamic> getData = {};
+
+  //     if (params.containsKey(ApiAndParams.id)) {
+  //       getData = (await updateAddressApi(context: context, params: params));
+  //     } else {
+  //       getData = (await addAddressApi(context: context, params: params));
+  //     }
+
+  //     late UserAddressData tempAddress;
+  //     if (getData[ApiAndParams.status].toString() == "1") {
+  //       tempAddress = UserAddressData.fromJson(getData[ApiAndParams.data]);
+  //       if (params.containsKey(ApiAndParams.id)) {
+  //         addresses.remove(address);
+  //       }
+
+  //       addresses.add(tempAddress);
+
+  //       if (int.parse(tempAddress.isDefault.toString()) == 1) {
+  //         selectedAddressId = int.parse(tempAddress.id.toString());
+  //       }
+
+  //       addressState = AddressState.loaded;
+  //       notifyListeners();
+
+  //       function();
+  //     } else {
+  //       addressState = AddressState.error;
+  //       notifyListeners();
+  //     }
+  //   } catch (e) {
+  //     message = e.toString();
+  //     addressState = AddressState.error;
+  //     showMessage(
+  //       context,
+  //       message,
+  //       MessageType.warning,
+  //     );
+  //     notifyListeners();
+  //   }
+  // }
+
+  void addOrUpdateAddress({
+    required BuildContext context,
+    var address,
+    required Map<String, String> params,
+    required Function function,
+  }) async {
     addressState = AddressState.editing;
     notifyListeners();
 
@@ -123,19 +177,25 @@ class AddressProvider extends ChangeNotifier {
       Map<String, dynamic> getData = {};
 
       if (params.containsKey(ApiAndParams.id)) {
-        getData = (await updateAddressApi(context: context, params: params));
+        getData = await updateAddressApi(context: context, params: params);
       } else {
-        getData = (await addAddressApi(context: context, params: params));
+        getData = await addAddressApi(context: context, params: params);
       }
 
       late UserAddressData tempAddress;
       if (getData[ApiAndParams.status].toString() == "1") {
         tempAddress = UserAddressData.fromJson(getData[ApiAndParams.data]);
-        if (params.containsKey(ApiAndParams.id)) {
-          addresses.remove(address);
-        }
 
-        addresses.add(tempAddress);
+        if (params.containsKey(ApiAndParams.id)) {
+          // Find the index of the existing address and update it in place
+          int index = addresses.indexWhere((item) => item.id == tempAddress.id);
+          if (index != -1) {
+            addresses[index] = tempAddress;
+          }
+        } else {
+          // If it's a new address, add it normally
+          addresses.add(tempAddress);
+        }
 
         if (int.parse(tempAddress.isDefault.toString()) == 1) {
           selectedAddressId = int.parse(tempAddress.id.toString());
@@ -143,7 +203,6 @@ class AddressProvider extends ChangeNotifier {
 
         addressState = AddressState.loaded;
         notifyListeners();
-
         function();
       } else {
         addressState = AddressState.error;
@@ -152,11 +211,7 @@ class AddressProvider extends ChangeNotifier {
     } catch (e) {
       message = e.toString();
       addressState = AddressState.error;
-      showMessage(
-        context,
-        message,
-        MessageType.warning,
-      );
+      showMessage(context, message, MessageType.warning);
       notifyListeners();
     }
   }

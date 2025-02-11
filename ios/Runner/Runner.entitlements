@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.applesignin</key>
 	<array>
-		<string>applinks.admin.frostys.in</string>
+		<string>applinks.admin.myfrostyfoods.com</string>
 	</array>
 </dict>
 </plist>

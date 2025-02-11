@@ -120,41 +120,64 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                   ),
                   getSizedBox(height: Constant.size10),
                   Padding(
-                    padding: EdgeInsetsDirectional.only(end: 5),
+                    padding: EdgeInsetsDirectional.only(end: 0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            RichText(
-                              maxLines: 2,
-                              softWrap: true,
-                              overflow: TextOverflow.clip,
-                              text: TextSpan(children: [
-                                TextSpan(
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: ColorsRes.grey,
-                                      decoration: TextDecoration.lineThrough,
-                                      decorationThickness: 2),
-                                  text: double.parse(widget
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              direction: Axis.horizontal,
+                              spacing: 15,
+                              children: [
+                                RichText(
+                                  maxLines: 2,
+                                  softWrap: true,
+                                  overflow: TextOverflow.clip,
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: ColorsRes.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          decorationThickness: 2),
+                                      text: double.parse(widget
+                                                  .product
+                                                  .variants[
+                                                      selectedVariantItemProvider
+                                                          .getSelectedIndex()]
+                                                  .PriceGST) !=
+                                              0
+                                          ? widget
                                               .product
                                               .variants[
                                                   selectedVariantItemProvider
                                                       .getSelectedIndex()]
-                                              .PriceGST) !=
-                                          0
-                                      ? widget
-                                          .product
-                                          .variants[selectedVariantItemProvider
-                                              .getSelectedIndex()]
-                                          .PriceGST
-                                          .currency
-                                      : "",
+                                              .PriceGST
+                                              .currency
+                                          : "",
+                                    ),
+                                  ]),
                                 ),
-                              ]),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 7),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: ColorsRes.appColorGreen,
+                                  ),
+                                  child: Text(
+                                    '${((1 - (widget.product.variants[selectedVariantItemProvider.getSelectedIndex()].discountedPrice.toDouble / widget.product.variants[selectedVariantItemProvider.getSelectedIndex()].price.toDouble)) * 100).round()}% OFF',
+                                    style: TextStyle(
+                                        color: ColorsRes.appColorWhite,
+                                        fontSize: 12),
+                                  ),
+                                )
+                              ],
                             ),
                             getSizedBox(height: 5),
                             // CustomTextLabel(
@@ -278,7 +301,6 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                             ),
                           ],
                         ),
-                        Spacer(),
                         ProductListRatingBuilderWidget(
                           averageRating: context
                               .read<RatingListProvider>()
