@@ -5,6 +5,8 @@ class AddressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'id is ----------------- ${context.read<CheckoutProvider>().selectedAddress!.id}');
     return Container(
       decoration: DesignConfig.boxDecoration(Theme.of(context).cardColor, 10),
       padding: const EdgeInsets.all(10),
@@ -54,10 +56,11 @@ class AddressWidget extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, addressListScreen,
-                                      arguments: "checkout")
+                                      arguments: ["checkout", context])
                                   .then((value) {
                                 if (value is UserAddressData) {
                                   UserAddressData selectedAddress = value;
+
                                   context
                                       .read<CheckoutProvider>()
                                       .setSelectedAddress(
@@ -104,8 +107,7 @@ class AddressWidget extends StatelessWidget {
                 : GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, addressListScreen,
-                              arguments: "checkout")
-                          .then((value) {
+                          arguments: ["checkout", context]).then((value) {
                         context.read<CheckoutProvider>().setSelectedAddress(
                             context, value as UserAddressData);
                       });

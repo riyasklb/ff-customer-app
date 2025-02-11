@@ -77,6 +77,9 @@ Future<void> main() async {
         ChangeNotifierProvider<CheckoutProvider>(
           create: (context) => CheckoutProvider(),
         ),
+        ChangeNotifierProvider<AddressProvider>(
+          create: (context) => AddressProvider(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -190,7 +193,7 @@ class MyAppState extends State<MyApp> {
                   initialRoute: "/",
                   scrollBehavior: ScrollGlowBehavior(),
                   debugShowCheckedModeBanner: false,
-                  title: "customer",
+                  title: "Frosty Foods",
                   theme: ColorsRes.setAppTheme().copyWith(
                     textTheme:
                         GoogleFonts.latoTextTheme(Theme.of(context).textTheme),

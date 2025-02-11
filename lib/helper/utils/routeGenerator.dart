@@ -17,7 +17,7 @@ const String cartScreen = 'cartScreen';
 const String checkoutScreen = 'checkoutScreen';
 const String promoCodeScreen = 'promoCodeScreen';
 const String productListScreen = 'productListScreen';
-const String productSearchScreen = 'productSearchScreen';
+const String productSearchScreen = 'praddressListScreenoductSearchScreen';
 const String productListFilterScreen = 'productListFilterScreen';
 const String productDetailScreen = 'productDetailScreen';
 const String ratingAndReviewScreen = 'ratingAndReviewScreen';
@@ -271,11 +271,15 @@ class RouteGenerator {
         );
 
       case addressListScreen:
+        List<dynamic> addressListScreenArguments =
+            settings.arguments as List<dynamic>;
         return CupertinoPageRoute(
           builder: (_) => ChangeNotifierProvider<AddressProvider>(
             create: (context) => AddressProvider(),
             child: AddressListScreen(
-              from: settings.arguments as String,
+              from: addressListScreenArguments[0] as String,
+              checkoutProviderContext:
+                  addressListScreenArguments[1] as BuildContext,
             ),
           ),
         );
@@ -301,8 +305,6 @@ class RouteGenerator {
           ),
         );
 
-      
-
       case orderDetailScreen:
         List<dynamic> orderDetailScreenArguments =
             settings.arguments as List<dynamic>;
@@ -324,8 +326,6 @@ class RouteGenerator {
         );
 
       case trackOrderScreen:
-        
-
       case orderTrackerScreen:
         List<dynamic> orderTrackerScreenArguments =
             settings.arguments as List<dynamic>;

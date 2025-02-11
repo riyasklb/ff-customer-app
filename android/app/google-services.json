@@ -1,43 +1,45 @@
 {
   "project_info": {
-    "project_number": "683119608165",
-    "project_id": "frosty-foods-df69c",
-    "storage_bucket": "frosty-foods-df69c.firebasestorage.app"
+    "project_number": "252681830236",
+    "project_id": "frostyfoods-fc646",
+    "storage_bucket": "frostyfoods-fc646.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:683119608165:android:cf2bf3f9a638543e96618c",
+        "mobilesdk_app_id": "1:252681830236:android:14b21fe4a6420bd2d28b99",
         "android_client_info": {
           "package_name": "com.frostyfoods.customer"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "683119608165-3nl41krtivbe50a2vhgedi4df4v6fehc.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAJ8tib-iw_TaFlO9B-iJMR1lUxNc4xCQE"
+          "current_key": "AIzaSyC-iiP6Hf6wjQpNm8LEO3nQYmDcHFgYbdA"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "683119608165-3nl41krtivbe50a2vhgedi4df4v6fehc.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "683119608165-f9muq1nseegmj28smgqvqip9eeden743.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.wrteam.egrocer"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252681830236:android:dcc54fb40e81b002d28b99",
+        "android_client_info": {
+          "package_name": "com.frostyfoods.deliveryman"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-iiP6Hf6wjQpNm8LEO3nQYmDcHFgYbdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

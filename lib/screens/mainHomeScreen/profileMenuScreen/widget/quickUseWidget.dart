@@ -43,7 +43,7 @@ class QuickUseWidget extends StatelessWidget {
                     onClickAction: () => Navigator.pushNamed(
                       context,
                       addressListScreen,
-                      arguments: "quick_widget",
+                      arguments: ["quick_widget", context],
                     ),
                     padding: const EdgeInsetsDirectional.only(
                       start: 5,

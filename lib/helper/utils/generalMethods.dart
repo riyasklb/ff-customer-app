@@ -199,6 +199,15 @@ String? validateEmail(String value) {
   }
 }
 
+String? validateUsername(String value) {
+  RegExp regex = RegExp(r'^[a-zA-Z0-9_.]{3,20}$');
+  if (value.trim().isEmpty || !regex.hasMatch(value)) {
+    return "";
+  } else {
+    return null;
+  }
+}
+
 emptyValidation(String val) {
   if (val.trim().isEmpty) {
     return "";

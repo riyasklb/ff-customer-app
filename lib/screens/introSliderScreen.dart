@@ -32,20 +32,17 @@ class IntroSliderScreenState extends State<IntroSliderScreen> {
   Widget build(BuildContext context) {
     introSlider = [
       {
-        "image":
-            "on_boarding_1.png",
+        "image": "on_boarding_1.png",
         "title": getTranslatedValue(context, "intro_title_1"),
         "description": getTranslatedValue(context, "intro_description_1"),
       },
       {
-        "image":
-            "on_boarding_2.png",
+        "image": "on_boarding_2.png",
         "title": getTranslatedValue(context, "intro_title_2"),
         "description": getTranslatedValue(context, "intro_description_2"),
       },
       {
-        "image":
-            "on_boarding_3.png",
+        "image": "on_boarding_3.png",
         "title": getTranslatedValue(context, "intro_title_3"),
         "description": getTranslatedValue(context, "intro_description_3"),
       },

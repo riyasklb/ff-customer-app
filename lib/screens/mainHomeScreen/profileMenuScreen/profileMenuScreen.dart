@@ -26,6 +26,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'id in on is ----------------- ${context.read<CheckoutProvider>().selectedAddress!.id}');
     return Scaffold(
       appBar: getAppBar(
         context: context,
@@ -37,8 +39,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         showBackButton: false,
       ),
-      body: Consumer<UserProfileProvider>(
-        builder: (context, userProfileProvider, _) {
+      body: Consumer<CheckoutProvider>(
+        builder: (context, checkoutProvider, _) {
+          print(
+              'id is hhh ----------------- ${checkoutProvider.selectedAddress!.id}');
           setProfileMenuList();
           return ListView(
             controller: widget.scrollController,

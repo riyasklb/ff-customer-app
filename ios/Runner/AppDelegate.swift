@@ -18,7 +18,7 @@ import FirebaseCore
     }
 
     // TODO IOS MAP API KEY
-    GMSServices.provideAPIKey("AIzaSyB6UFIcPtHybKeKe0i3vXyNW_I095lJJEo")
+    GMSServices.provideAPIKey("AIzaSyAK7jf2VGywoKmGRgxRaiAFuaOohynkcaQ")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

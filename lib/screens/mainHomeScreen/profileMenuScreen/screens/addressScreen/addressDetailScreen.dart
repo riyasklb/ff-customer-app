@@ -630,8 +630,22 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                             address: widget.address ?? "",
                             params: params,
                             function: () {
-                              Navigator.pop(context);
+                              final addresses = widget.addressProviderContext
+                                  .read<AddressProvider>();
+
+                              if ((widget.address?.id.toString() ?? "")
+                                      .isEmpty &&
+                                  addresses.addresses.isNotEmpty) {
+                                print('New Address');
+                                addresses.setSelectedAddress(int.parse(
+                                    addresses.addresses.last.id.toString()));
+                                Navigator.pop(
+                                    context, addresses.addresses.last);
+                              } else {
+                                Navigator.pop(context);
+                              }
                             });
+
                     setState(() {
                       isLoading = true;
                     });

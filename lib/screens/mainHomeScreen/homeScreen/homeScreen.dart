@@ -19,10 +19,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    bool isLoad = true;
     print('hello home screen');
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (Constant.session.getBoolData(SessionManager.isLocation) == false) {
         showModalBottomSheet(
+          isDismissible: false,
           backgroundColor: Theme.of(context).cardColor,
           shape: DesignConfig.setRoundedBorderSpecific(20, istop: true),
           context: context,
@@ -85,6 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               .then((value) async {
                             if (value is PermissionStatus) {
                               if (value.isGranted) {
+                                setState(() {
+                                  isLoad = false;
+                                });
                                 if (!mounted) return;
                                 await Geolocator.getCurrentPosition()
                                     .then((position) async {
@@ -113,6 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     setState(() {});
 
                                     Navigator.pop(context);
+                                    setState(() {
+                                      isLoad = true;
+                                    });
                                     Navigator.of(context)
                                         .pushNamedAndRemoveUntil(
                                       mainHomeScreen,
@@ -159,14 +167,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding:
                               EdgeInsets.symmetric(vertical: Constant.size10),
                           child: Center(
-                            child: CustomTextLabel(
-                              text: "Use Current Location",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
+                            child: isLoad
+                                ? CustomTextLabel(
+                                    text: "Use Current Location",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  )
+                                : CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
                           ),
                         ),
                       ),
@@ -350,10 +362,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     .getGuestCartListProvider(context: context);
               }
             }
-            
           },
         );
-      } 
+      }
     });
 
     //fetch productList from api

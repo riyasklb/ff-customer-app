@@ -9,10 +9,10 @@ class LocalAwesomeNotification {
   static LocalAwesomeNotification? localNotification =
       LocalAwesomeNotification();
 
-  static late StreamSubscription<RemoteMessage>? foregroundStream;
+  // static late StreamSubscription<RemoteMessage>? foregroundStream;
   static late StreamSubscription<RemoteMessage>? onMessageOpen;
 
-  init(BuildContext context) async {
+  Future<void> init(BuildContext context) async {
     if (notification != null &&
         messagingInstance != null &&
         localNotification != null) {
@@ -27,7 +27,7 @@ class LocalAwesomeNotification {
         await listenTap(context);
 
         await notification?.initialize(
-          // 'resource://mipmap/logo',
+          // 'resource://drawable/ic_launcher',
           null,
           [
             NotificationChannel(
@@ -58,7 +58,8 @@ class LocalAwesomeNotification {
       await listenTap(context);
 
       await notification?.initialize(
-        'resource://mipmap/logo',
+        // 'resource://drawable/ic_launcher',
+        null,
         [
           NotificationChannel(
             channelKey: Constant.notificationChannel,
@@ -264,6 +265,7 @@ class LocalAwesomeNotification {
     try {
       onMessageOpen =
           FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        debugPrint("Foreground notification handler invoked.");
         if (Platform.isAndroid) {
           if (message.data["image"] == "" || message.data["image"] == null) {
             localNotification?.createNotification(
@@ -318,7 +320,7 @@ class LocalAwesomeNotification {
   Future disposeListeners() async {
     try {
       onMessageOpen?.cancel();
-      foregroundStream?.cancel();
+      // foregroundStream?.cancel();
     } catch (e) {
       if (kDebugMode) {
         debugPrint("ERROR IS ${e.toString()}");

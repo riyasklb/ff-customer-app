@@ -50,21 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAJ8tib-iw_TaFlO9B-iJMR1lUxNc4xCQE',
-    appId: '1:683119608165:android:cf2bf3f9a638543e96618c',
-    messagingSenderId: '683119608165',
-    projectId: 'frosty-foods-df69c',
-    storageBucket: 'frosty-foods-df69c.firebasestorage.app',
+    apiKey: 'AIzaSyC-iiP6Hf6wjQpNm8LEO3nQYmDcHFgYbdA',
+    appId: '1:252681830236:android:14b21fe4a6420bd2d28b99',
+    messagingSenderId: '252681830236',
+    projectId: 'frostyfoods-fc646',
+    storageBucket: 'frostyfoods-fc646.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB6UFIcPtHybKeKe0i3vXyNW_I095lJJEo',
-    appId: '1:683119608165:ios:b2df23805f45a99596618c',
-    messagingSenderId: '683119608165',
-    projectId: 'frosty-foods-df69c',
-    storageBucket: 'frosty-foods-df69c.firebasestorage.app',
-    androidClientId: '683119608165-bfd3bomavjf3g8f8r776l8olmt8qql6n.apps.googleusercontent.com',
-    iosClientId: '683119608165-7o60oe9o675tt97fns869cu57j8v10cv.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAK7jf2VGywoKmGRgxRaiAFuaOohynkcaQ',
+    appId: '1:252681830236:ios:b834689bcaed5a5cd28b99',
+    messagingSenderId: '252681830236',
+    projectId: 'frostyfoods-fc646',
+    storageBucket: 'frostyfoods-fc646.firebasestorage.app',
     iosBundleId: 'com.frostyfoods.customer',
   );
 }

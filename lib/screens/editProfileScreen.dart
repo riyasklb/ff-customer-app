@@ -1,4 +1,5 @@
-import 'package:image_picker_platform_interface/src/types/image_source.dart' as ip;
+import 'package:image_picker_platform_interface/src/types/image_source.dart'
+    as ip;
 import 'package:project/helper/utils/generalImports.dart';
 
 class EditProfile extends StatefulWidget {
@@ -359,7 +360,7 @@ class _EditProfileState extends State<EditProfile> {
           editBoxWidget(
             context,
             edtUsername,
-            emptyValidation,
+            validateUsername,
             getTranslatedValue(
               context,
               "user_name",
@@ -477,8 +478,8 @@ class _EditProfileState extends State<EditProfile> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 isDense: true,
-                hintStyle: TextStyle(color: ColorsRes.grey.withOpacity(0.5)),
-                hintText: "9999999999",
+                hintStyle: TextStyle(color: Theme.of(context).hintColor),
+                hintText: "Mobile Number",
               ),
             ),
           )
