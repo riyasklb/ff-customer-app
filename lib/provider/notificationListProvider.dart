@@ -16,6 +16,19 @@ class NotificationProvider extends ChangeNotifier {
   bool hasMoreData = false;
   int totalData = 0;
   int offset = 0;
+  int _notificationCount = 0;
+
+  int get notificationCount => _notificationCount;
+
+  void incrementNotificationCount() {
+    _notificationCount++;
+    notifyListeners();
+  }
+
+  void clearNotificationCount() {
+    _notificationCount = 0;
+    notifyListeners();
+  }
 
   getNotificationProvider({
     required Map<String, dynamic> params,
@@ -33,6 +46,9 @@ class NotificationProvider extends ChangeNotifier {
           Constant.defaultDataLoadLimitAtOnce.toString();
       params[ApiAndParams.offset] = offset.toString();
 
+      print(
+          'notification length before --------------> ${notifications.length} || $totalData');
+
       Map<String, dynamic> getData =
           (await getNotificationApi(context: context, params: params));
 
@@ -43,6 +59,9 @@ class NotificationProvider extends ChangeNotifier {
 
         notifications.addAll(tempNotifications);
       }
+
+      print(
+          'notification length after --------------> ${notifications.length} || $totalData');
 
       if (notifications.isNotEmpty) {
         hasMoreData = totalData > notifications.length;

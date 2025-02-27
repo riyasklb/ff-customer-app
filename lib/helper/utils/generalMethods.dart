@@ -241,6 +241,16 @@ phoneValidation(String value) {
   return null;
 }
 
+validateName(String value) {
+  if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
+    return 'Enter a valid name (only letters and spaces)';
+  }
+  if (value.length < 3) {
+    return 'Name must be at least 2 characters long';
+  }
+  return null;
+}
+
 optionalPhoneValidation(String value) {
   if (value.isEmpty) {
     {
@@ -535,6 +545,14 @@ String getTranslatedValue(BuildContext context, String jsonKey) {
   return context.read<LanguageProvider>().currentLanguage[jsonKey] ??
       context.read<LanguageProvider>().currentLocalOfflineLanguage[jsonKey] ??
       jsonKey;
+}
+
+String formatWords(List<String> words) {
+  if (words.isEmpty) return "";
+  if (words.length == 1) return "${words.first}!";
+  if (words.length == 2) return "${words[0]} and ${words[1]}!";
+
+  return "${words.sublist(0, words.length - 1).join(', ')} and ${words.last}!";
 }
 
 Future openRatingDialog(

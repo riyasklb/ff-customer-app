@@ -1,4 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:project/helper/utils/generalImports.dart';
 import 'package:project/screens/authenticationScreen/widget/socialMediaLoginButtonWidget.dart';
 
@@ -18,7 +19,7 @@ class LoginAccount extends StatefulWidget {
 }
 
 class _LoginAccountState extends State<LoginAccount> {
-  CountryCode? selectedCountryCode;
+  PhoneNumber? fullNumber;
   bool isLoading = false;
 
   // TODO REMOVE DEMO NUMBER FROM HERE
@@ -49,6 +50,7 @@ class _LoginAccountState extends State<LoginAccount> {
 
   @override
   Widget build(BuildContext context) {
+    print('widget.from------------------> ${widget.from}');
     return Scaffold(
       body: Stack(
         children: [
@@ -377,82 +379,61 @@ class _LoginAccountState extends State<LoginAccount> {
   }
 
   mobileNoWidget() {
-    return Row(
-      children: [
-        const SizedBox(width: 5),
-        IgnorePointer(
-          ignoring: isLoading,
-          child: CountryCodePicker(
-            onInit: (countryCode) {
-              selectedCountryCode = countryCode;
-            },
-            onChanged: (countryCode) {
-              selectedCountryCode = countryCode;
-            },
-            initialSelection: Constant.initialCountryCode,
-            textOverflow: TextOverflow.ellipsis,
-            backgroundColor: Theme.of(context).cardColor,
-            textStyle: TextStyle(color: ColorsRes.mainTextColor),
-            dialogBackgroundColor: Theme.of(context).cardColor,
-            dialogSize: Size(context.width, context.height),
-            barrierColor: ColorsRes.subTitleMainTextColor,
-            padding: EdgeInsets.zero,
-            searchDecoration: InputDecoration(
-              iconColor: ColorsRes.subTitleMainTextColor,
-              fillColor: Theme.of(context).cardColor,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
-              ),
-              focusColor: Theme.of(context).scaffoldBackgroundColor,
-              prefixIcon: Icon(
-                Icons.search_rounded,
-                color: ColorsRes.subTitleMainTextColor,
-              ),
-            ),
-            searchStyle: TextStyle(
-              color: ColorsRes.subTitleMainTextColor,
-            ),
-            dialogTextStyle: TextStyle(
-              color: ColorsRes.mainTextColor,
-            ),
+    return IgnorePointer(
+      ignoring: isLoading,
+      child: IntlPhoneField(
+        controller: edtPhoneNumber,
+
+        onChanged: (number) {
+          print('number is ${number}');
+          fullNumber = number;
+        },
+        initialCountryCode: Constant.initialCountryCode,
+        dropdownTextStyle: TextStyle(color: ColorsRes.mainTextColor),
+        style: TextStyle(color: ColorsRes.mainTextColor),
+        dropdownIcon: Icon(
+          Icons.keyboard_arrow_down_rounded,
+          color: ColorsRes.mainTextColor,
+        ),
+        dropdownIconPosition: IconPosition.trailing,
+        flagsButtonMargin: EdgeInsets.only(left: 10),
+        decoration: InputDecoration(
+          counterText: '',
+          hintText: 'Mobile Number',
+          hintStyle: TextStyle(color: Theme.of(context).hintColor),
+          contentPadding: EdgeInsets.zero,
+          iconColor: ColorsRes.subTitleMainTextColor,
+          fillColor: Theme.of(context).cardColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
+          ),
+          focusColor: Theme.of(context).scaffoldBackgroundColor,
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: ColorsRes.subTitleMainTextColor,
           ),
         ),
-        Icon(
-          Icons.keyboard_arrow_down,
-          color: ColorsRes.grey,
-          size: 15,
-        ),
-        getSizedBox(
-          width: Constant.size10,
-        ),
-        Expanded(
-          child: TextField(
-            controller: edtPhoneNumber,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ],
-            style: TextStyle(
-              color: ColorsRes.mainTextColor,
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              isDense: true,
-              hintStyle: TextStyle(color: Theme.of(context).hintColor),
-              hintText: "Mobile Number",
-            ),
-          ),
-        )
-      ],
+
+        // backgroundColor: Theme.of(context).cardColor,
+        // textStyle: TextStyle(color: ColorsRes.mainTextColor),
+        // dialogBackgroundColor: Theme.of(context).cardColor,
+        // dialogSize: Size(context.width, context.height),
+        // barrierColor: ColorsRes.subTitleMainTextColor,
+        // padding: EdgeInsets.zero,
+
+        // searchStyle: TextStyle(
+        //   color: ColorsRes.subTitleMainTextColor,
+        // ),
+      ),
     );
   }
 
@@ -549,7 +530,7 @@ class _LoginAccountState extends State<LoginAccount> {
       if (Constant.firebaseAuthentication == "1") {
         await firebaseAuth.verifyPhoneNumber(
           timeout: Duration(minutes: 1, seconds: 30),
-          phoneNumber: '${selectedCountryCode!.dialCode}${edtPhoneNumber.text}',
+          phoneNumber: fullNumber!.completeNumber,
           verificationCompleted: (PhoneAuthCredential credential) {},
           verificationFailed: (FirebaseAuthException e) {
             print('Message is ------------' + e.code);
@@ -570,14 +551,14 @@ class _LoginAccountState extends State<LoginAccount> {
             isLoading = false;
             setState(() {
               phoneNumber =
-                  '${selectedCountryCode!.dialCode} - ${edtPhoneNumber.text}';
+                  '${fullNumber!.countryCode} - ${fullNumber!.number}';
               otpVerificationId = verificationId;
 
               List<dynamic> firebaseArguments = [
                 firebaseAuth,
                 otpVerificationId,
                 edtPhoneNumber.text,
-                selectedCountryCode!,
+                fullNumber,
                 widget.from ?? null
               ];
               Navigator.pushNamed(context, otpScreen,
@@ -596,9 +577,7 @@ class _LoginAccountState extends State<LoginAccount> {
       } else if (Constant.customSmsGatewayOtpBased == "1") {
         context.read<UserProfileProvider>().sendCustomOTPSmsProvider(
           context: context,
-          params: {
-            ApiAndParams.phone: "$selectedCountryCode${edtPhoneNumber.text}"
-          },
+          params: {ApiAndParams.phone: fullNumber!.completeNumber},
         ).then(
           (value) {
             if (value == "1") {
@@ -606,7 +585,7 @@ class _LoginAccountState extends State<LoginAccount> {
                 firebaseAuth,
                 otpVerificationId,
                 edtPhoneNumber.text,
-                selectedCountryCode!,
+                fullNumber!.countryCode,
                 widget.from ?? null
               ];
               Navigator.pushNamed(context, otpScreen,

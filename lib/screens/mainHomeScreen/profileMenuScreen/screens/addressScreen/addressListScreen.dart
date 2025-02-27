@@ -311,7 +311,9 @@ class _AddressListScreenState extends State<AddressListScreen> {
                           callback: () {
                             Navigator.pushNamed(context, addressDetailScreen,
                                 arguments: [null, context]).then((value) {
-                              Navigator.pop(context, value);
+                              value == null
+                                  ? null
+                                  : Navigator.pop(context, value);
                             });
                           },
                           title: getTranslatedValue(

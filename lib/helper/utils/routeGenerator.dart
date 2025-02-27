@@ -28,7 +28,7 @@ const String orderDetailScreen = 'orderDetailScreen';
 const String orderTrackerScreen = 'orderTrackerScreen';
 const String trackOrderScreen = 'TrackOrderScreen';
 const String orderHistoryScreen = 'orderHistoryScreen';
-const String notificationListScreen = 'notificationListScreen';
+const String notificationListScreen = '';
 const String transactionListScreen = 'transactionListScreen';
 const String walletHistoryListScreen = 'walletHistoryListScreen';
 const String faqListScreen = 'faqListScreen';
@@ -74,7 +74,7 @@ class RouteGenerator {
             firebaseAuth: firebaseArguments[0] as FirebaseAuth,
             otpVerificationId: firebaseArguments[1] as String,
             phoneNumber: firebaseArguments[2] as String,
-            selectedCountryCode: firebaseArguments[3] as CountryCode,
+            selectedCountryCode: firebaseArguments[3] as PhoneNumber,
             from: firebaseArguments[4] as String?,
           ),
         );
@@ -103,8 +103,9 @@ class RouteGenerator {
             settings.arguments as List<dynamic>;
         return CupertinoPageRoute(
           builder: (_) => ConfirmLocation(
-            address: confirmLocationArguments[0],
-            from: confirmLocationArguments[1] as String,
+            latitude: confirmLocationArguments[0],
+            longitude: confirmLocationArguments[1],
+            from: confirmLocationArguments[2] as String,
           ),
         );
 

@@ -7,6 +7,7 @@ class DeepLinkProvider extends ChangeNotifier {
   late AppLinks _appLinks;
 
   getDeepLinkProvider() async {
+    print('hai brooooooooooooooooooooooo');
     try {
       await initDeepLinks();
     } catch (e) {
@@ -16,12 +17,13 @@ class DeepLinkProvider extends ChangeNotifier {
 
   Future<void> initDeepLinks() async {
     _appLinks = AppLinks();
-
+    print('hai dasaaaaaaaaa');
     // Handle links
     _appLinks.uriLinkStream.listen((uri) {
       debugPrint('onAppLink: $uri');
       _initialUri = uri;
     });
+    print('hai dasaaaaaaaaa11111111111111 $_initialUri');
   }
 
   changeState() {
@@ -31,6 +33,7 @@ class DeepLinkProvider extends ChangeNotifier {
   getDeepLinkRedirection({required BuildContext context}) {
     if (_initialUri != null) {
       String? productSlug = _initialUri?.path.toString().split("/").last;
+      print('product----------> $productSlug');
       Navigator.pushNamed(
         context,
         productDetailScreen,

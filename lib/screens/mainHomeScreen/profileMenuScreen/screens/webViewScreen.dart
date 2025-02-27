@@ -97,10 +97,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.only(
-                              start: Constant.size30,
-                              top: Constant.size5,
-                              bottom: Constant.size10,
-                              end: Constant.size10),
+                            bottom: Constant.size5,
+                          ),
                           child: _getHtmlContainer(Constant.privacyPolicy),
                         )
                       ],
@@ -136,10 +134,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.only(
-                              start: Constant.size30,
-                              top: Constant.size5,
-                              bottom: Constant.size10,
-                              end: Constant.size10),
+                            bottom: Constant.size5,
+                          ),
                           child: _getHtmlContainer(
                               Constant.returnAndExchangesPolicy),
                         )
@@ -176,10 +172,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.only(
-                              start: Constant.size30,
-                              top: Constant.size5,
-                              bottom: Constant.size10,
-                              end: Constant.size10),
+                            bottom: Constant.size5,
+                          ),
                           child: _getHtmlContainer(Constant.shippingPolicy),
                         )
                       ],
@@ -215,10 +209,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.only(
-                              start: Constant.size30,
-                              top: Constant.size5,
-                              bottom: Constant.size10,
-                              end: Constant.size10),
+                            bottom: Constant.size5,
+                          ),
                           child: _getHtmlContainer(Constant.cancellationPolicy),
                         )
                       ],
@@ -245,7 +237,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       textStyle: TextStyle(color: ColorsRes.mainTextColor),
       hintTextStyle: TextStyle(color: ColorsRes.subTitleMainTextColor),
       hintTextAlign: TextAlign.start,
-      padding: const EdgeInsets.only(left: 10, top: 10),
+      padding: const EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
       hintTextPadding: const EdgeInsets.only(left: 20),
       backgroundColor: Theme.of(context).cardColor,
       inputAction: InputAction.newline,

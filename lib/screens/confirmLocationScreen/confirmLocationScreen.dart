@@ -4,10 +4,12 @@ import 'package:project/helper/generalWidgets/googleMapSearchLocationWidgets/flu
 import 'package:project/helper/utils/generalImports.dart';
 
 class ConfirmLocation extends StatefulWidget {
-  final GeoAddress? address;
+  final String? latitude;
+  final String? longitude;
   final String from;
 
-  const ConfirmLocation({Key? key, this.address, required this.from})
+  const ConfirmLocation(
+      {Key? key, this.latitude, this.longitude, required this.from})
       : super(key: key);
 
   @override
@@ -26,14 +28,12 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
   @override
   void initState() {
     super.initState();
-
     kMapCenter = LatLng(0.0, 0.0);
     Future.delayed(Duration.zero).then((value) async {
       googleMapCurrentStyle =
           Constant.session.getBoolData(SessionManager.isDarkTheme)
               ? await rootBundle.loadString('assets/mapTheme/nightMode.json')
               : await rootBundle.loadString('assets/mapTheme/dayMode.json');
-      await checkPermission();
     });
 
     kGooglePlex = CameraPosition(
@@ -41,15 +41,18 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
       zoom: mapZoom,
     );
 
-    if (widget.address != null) {
-      kMapCenter = LatLng(double.parse(widget.address!.lattitud!),
-          double.parse(widget.address!.longitude!));
+    if (widget.longitude != null && widget.latitude != null) {
+      print('I heere');
+      kMapCenter = LatLng(
+          double.parse(widget.latitude!), double.parse(widget.longitude!));
 
       kGooglePlex = CameraPosition(
         target: kMapCenter,
         zoom: mapZoom,
       );
     } else {
+      print('I heere tooo');
+
       checkPermission();
     }
 
@@ -129,7 +132,9 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
 
     Constant.cityAddressMap = await getCityNameAndAddress(kMapCenter, context);
 
-    if (widget.from == "location") {
+    if (widget.from == "location" ||
+        widget.from == "home_screen" ||
+        widget.from == "bottom_sheet") {
       Map<String, dynamic> params = {};
       // params[ApiAndParams.cityName] = Constant.cityAddressMap["city"];
 
@@ -152,17 +157,27 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
           title: CustomTextLabel(
             jsonKey: "confirm_location",
           ),
-          showBackButton: Navigator.of(context).canPop(),
+          showBackButton: widget.from == "bottom_sheet"
+              ? false
+              : Navigator.of(context).canPop(),
         ),
         body: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, _) {
             if (didPop) {
+              print('done true');
               return;
             } else {
-              Future.delayed(const Duration(milliseconds: 500)).then((value) {
-                Navigator.pop(context, true);
-              });
+              print('done false');
+              widget.from == 'bottom_sheet'
+                  ? showMessage(
+                      context,
+                      "You must select a location to use this app. Please choose your location.",
+                      MessageType.warning)
+                  : Future.delayed(const Duration(milliseconds: 500))
+                      .then((value) {
+                      Navigator.pop(context, true);
+                    });
             }
           },
           child: Column(children: [
@@ -292,13 +307,17 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
   }
 
   confirmBtnWidget() {
+    print(
+        'is delivered ${context.read<CityByLatLongProvider>().isDeliverable}');
     return Card(
       color: Theme.of(context).cardColor,
       surfaceTintColor: Theme.of(context).cardColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          (widget.from == "location" &&
+          ((widget.from == "location" ||
+                      widget.from == "home_screen" ||
+                      widget.from == "bottom_sheet") &&
                   !context.read<CityByLatLongProvider>().isDeliverable)
               ? CustomTextLabel(
                   jsonKey: "does_not_delivery_long_message",
@@ -329,7 +348,9 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
               ],
             ),
           ),
-          if ((widget.from == "location" &&
+          if (((widget.from == "location" ||
+                      widget.from == "home_screen" ||
+                      widget.from == "bottom_sheet") &&
                   context.read<CityByLatLongProvider>().isDeliverable) ||
               widget.from == "address")
             ConfirmButtonWidget(
@@ -338,7 +359,9 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
                     kMapCenter.longitude.toString(), false);
                 Constant.session.setData(SessionManager.keyLatitude,
                     kMapCenter.latitude.toString(), false);
-                if (widget.from == "location" &&
+                if ((widget.from == "location" ||
+                        widget.from == "home_screen" ||
+                        widget.from == "bottom_sheet") &&
                     context.read<CityByLatLongProvider>().isDeliverable) {
                   context
                       .read<CartListProvider>()

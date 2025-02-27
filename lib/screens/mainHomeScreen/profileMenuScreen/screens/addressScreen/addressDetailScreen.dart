@@ -1,3 +1,4 @@
+import 'package:project/helper/generalWidgets/editPhoneBoxWidget.dart';
 import 'package:project/helper/utils/generalImports.dart';
 
 class AddressDetailScreen extends StatefulWidget {
@@ -33,6 +34,8 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
   String longitude = "";
   String latitude = "";
   AddressType selectedAddressType = AddressType.home;
+  String? numberMobile;
+  String? numberAltMobile;
 
   //Address types
   static Map addressTypes = {};
@@ -154,7 +157,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtName,
-              emptyValidation,
+              validateName,
               getTranslatedValue(
                 context,
                 "name",
@@ -163,44 +166,29 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                 context,
                 "enter_name",
               ),
-              TextInputType.text,
+              TextInputType.name,
               maxLength: 191,
             ),
             getSizedBox(height: Constant.size15),
-            editBoxWidget(
-              context,
-              edtMobile,
-              phoneValidation,
-              getTranslatedValue(
+            editPhoneBoxBoxWidget(
                 context,
-                "mobile_number",
-              ),
-              getTranslatedValue(
-                context,
-                "enter_valid_mobile",
-              ),
-              TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-            ),
+                edtMobile,
+                // phoneValidation,
+                getTranslatedValue(
+                  context,
+                  "mobile_number",
+                ),
+                number: numberMobile),
             getSizedBox(height: Constant.size15),
-            editBoxWidget(
+            editPhoneBoxBoxWidget(
               context,
               edtAltMobile,
-              optionalPhoneValidation,
+              // optionalPhoneValidation,
               getTranslatedValue(
                 context,
                 "alternate_mobile_number",
               ),
-              getTranslatedValue(
-                context,
-                "enter_valid_mobile",
-              ),
-              TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
+              number: numberAltMobile,
             ),
           ],
         ),
@@ -241,11 +229,52 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                   "please_select_address_from_map",
                 ),
                 TextInputType.text,
-                maxLength: 191,
+                maxLength: 191, onTap: () {
+              Navigator.pushNamed(context, confirmLocationScreen,
+                  arguments: [null, null, "address"]).then(
+                (value) {
+                  setState(
+                    () {
+                      edtAddress.text = Constant.cityAddressMap["address"];
+
+                      edtCity.text = Constant.cityAddressMap["city"];
+
+                      edtArea.text = Constant.cityAddressMap["area"];
+
+                      edtLandmark.text = edtLandmark.text.toString().isNotEmpty
+                          ? edtLandmark.text.toString()
+                          : Constant.cityAddressMap["landmark"];
+
+                      edtZipcode.text = edtZipcode.text.isNotEmpty
+                          ? edtZipcode.text.toString()
+                          : Constant.cityAddressMap["pin_code"];
+
+                      edtCountry.text = Constant.cityAddressMap["country"]
+                              .toString()
+                              .isNotEmpty
+                          ? Constant.cityAddressMap["country"]
+                          : "";
+
+                      edtState.text =
+                          Constant.cityAddressMap["state"].toString().isNotEmpty
+                              ? Constant.cityAddressMap["state"].toString()
+                              : "";
+
+                      longitude =
+                          Constant.cityAddressMap["longitude"].toString();
+
+                      latitude = Constant.cityAddressMap["latitude"].toString();
+                    },
+                  );
+                  formKey.currentState?.validate();
+                },
+              );
+            },
+                readOnly: true,
                 tailIcon: IconButton(
                   onPressed: () {
                     Navigator.pushNamed(context, confirmLocationScreen,
-                        arguments: [null, "address"]).then(
+                        arguments: [null, null, "address"]).then(
                       (value) {
                         setState(
                           () {
@@ -354,18 +383,19 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                 context,
                 "enter_pin_code",
               ),
-              TextInputType.text,
+              TextInputType.number,
               maxLength: 191,
             ),
             getSizedBox(height: Constant.size15),
             editBoxWidget(
               context,
               edtState,
-              emptyValidation,
+              validateName,
               getTranslatedValue(
                 context,
                 "state",
               ),
+              isEditable: false,
               getTranslatedValue(
                 context,
                 "enter_state",
@@ -377,11 +407,12 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtCountry,
-              emptyValidation,
+              validateName,
               getTranslatedValue(
                 context,
                 "country",
               ),
+              isEditable: false,
               getTranslatedValue(
                 context,
                 "enter_country",

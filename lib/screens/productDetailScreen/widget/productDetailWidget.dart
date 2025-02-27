@@ -382,66 +382,26 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                       getSpecificationItem(
                         titleJson: "category",
                         value: widget.product.categoryName.toString(),
-                        voidCallback: () {
-                          Navigator.pushNamed(
-                            context,
-                            productListScreen,
-                            arguments: [
-                              "category",
-                              widget.product.categoryId.toString(),
-                              widget.product.categoryName.toString(),
-                            ],
-                          );
-                        },
-                        isClickable: true,
+                        voidCallback: () {},
+                        isClickable: false,
                       ),
                       getSpecificationItem(
                         titleJson: "seller_name",
                         value: widget.product.sellerName,
-                        voidCallback: () {
-                          Navigator.pushNamed(
-                            context,
-                            productListScreen,
-                            arguments: [
-                              "seller",
-                              widget.product.sellerId.toString(),
-                              widget.product.sellerName.toString(),
-                            ],
-                          );
-                        },
-                        isClickable: true,
+                        voidCallback: () {},
+                        isClickable: false,
                       ),
                       getSpecificationItem(
                         titleJson: "brand",
                         value: widget.product.brandName,
-                        voidCallback: () {
-                          Navigator.pushNamed(
-                            context,
-                            productListScreen,
-                            arguments: [
-                              "brand",
-                              widget.product.brandId.toString(),
-                              widget.product.brandName.toString(),
-                            ],
-                          );
-                        },
-                        isClickable: true,
+                        voidCallback: () {},
+                        isClickable: false,
                       ),
                       getSpecificationItem(
                         titleJson: "made_in",
                         value: widget.product.madeIn,
-                        voidCallback: () {
-                          Navigator.pushNamed(
-                            context,
-                            productListScreen,
-                            arguments: [
-                              "country",
-                              widget.product.madeInId.toString(),
-                              widget.product.madeIn.toString(),
-                            ],
-                          );
-                        },
-                        isClickable: true,
+                        voidCallback: () {},
+                        isClickable: false,
                       ),
                       getSpecificationItem(
                         titleJson: "manufacturer",

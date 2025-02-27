@@ -30,6 +30,8 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
   void initState() {
     scrollController.addListener(scrollListener);
     Future.delayed(Duration.zero).then((value) {
+      Constant.session.setIntData(SessionManager.notificationTotalCount, 0);
+      notificationCount.value = 0;
       context
           .read<NotificationProvider>()
           .getNotificationProvider(params: {}, context: context);

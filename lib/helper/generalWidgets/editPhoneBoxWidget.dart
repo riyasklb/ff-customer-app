@@ -1,17 +1,13 @@
 import 'package:project/helper/utils/generalImports.dart';
 
-Widget editBoxWidget(
+Widget editPhoneBoxBoxWidget(
   BuildContext context,
   TextEditingController edtController,
-  Function validationFunction,
-  String label,
-  String errorLabel,
-  TextInputType inputType, {
-  Widget? tailIcon,
-  Widget? leadingIcon,
+  // Function validationFunction,
+  String label, {
   bool? isLastField,
+  String? number,
   bool? isEditable = true,
-  List<TextInputFormatter>? inputFormatters,
   TextInputAction? optionalTextInputAction,
   int? minLines,
   int? maxLines,
@@ -20,25 +16,27 @@ Widget editBoxWidget(
   void Function()? onTap,
   bool? readOnly,
 }) {
-  return TextFormField(
-    onTap: onTap ?? null,
-    enabled: isEditable,
-    readOnly: readOnly ?? false,
-    style: TextStyle(
+  return IntlPhoneField(
+    controller: edtController,
+    dropdownTextStyle: TextStyle(color: ColorsRes.mainTextColor),
+    style: TextStyle(color: ColorsRes.mainTextColor),
+    dropdownIcon: Icon(
+      Icons.keyboard_arrow_down_rounded,
       color: ColorsRes.mainTextColor,
     ),
-    maxLength: maxLength,
-    buildCounter: (context,
-            {required currentLength, required isFocused, required maxLength}) =>
-        Container(),
-    maxLines: maxLines,
-    minLines: minLines,
-    controller: edtController,
+    dropdownIconPosition: IconPosition.trailing,
+    readOnly: readOnly ?? false,
+    flagsButtonMargin: EdgeInsets.only(left: 10),
+    initialCountryCode: "IN",
+    onChanged: (value) {
+      print('full number is ${value.completeNumber}');
+      number = value.completeNumber;
+    },
     textInputAction: optionalTextInputAction ??
         (isLastField == true ? TextInputAction.done : TextInputAction.next),
     decoration: InputDecoration(
-      prefix: leadingIcon,
-      suffixIcon: tailIcon,
+      hintStyle: TextStyle(color: Theme.of(context).hintColor),
+      counterText: "",
       alignLabelWithHint: true,
       fillColor: Theme.of(context).cardColor,
       filled: true,
@@ -112,10 +110,5 @@ Widget editBoxWidget(
           floatingLabelBehavior ?? FloatingLabelBehavior.auto,
     ),
     autovalidateMode: AutovalidateMode.onUserInteraction,
-    keyboardType: inputType,
-    inputFormatters: inputFormatters ?? [],
-    validator: (String? value) {
-      return validationFunction(value ?? "") == null ? null : errorLabel;
-    },
   );
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project/helper/utils/generalImports.dart';
 
@@ -19,8 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     bool isLoad = true;
-    print('hello home screen');
+    print(
+        'hello home screen ---------------> delivery available -------->  ${context.read<CityByLatLongProvider>().isDeliverable}');
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (Constant.session.getBoolData(SessionManager.isLocation) == false) {
         showModalBottomSheet(
@@ -121,11 +124,67 @@ class _HomeScreenState extends State<HomeScreen> {
                                     setState(() {
                                       isLoad = true;
                                     });
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                      mainHomeScreen,
-                                      (Route<dynamic> route) => false,
-                                    );
+                                    if (context
+                                        .read<CityByLatLongProvider>()
+                                        .isDeliverable) {
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                        mainHomeScreen,
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    } else {
+                                      showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              CupertinoAlertDialog(
+                                                title: Text('Oops!'),
+                                                content: CustomTextLabel(
+                                                  jsonKey:
+                                                      "does_not_delivery_long_message",
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          confirmLocationScreen,
+                                                          arguments: [
+                                                            null,
+                                                            null,
+                                                            "bottom_sheet"
+                                                          ]).then(
+                                                          (value) async {
+                                                        if (value == null) {
+                                                          Map<String, String>
+                                                              params =
+                                                              await Constant
+                                                                  .getProductsDefaultParams();
+                                                          if (!mounted) return;
+                                                          await context
+                                                              .read<
+                                                                  HomeScreenProvider>()
+                                                              .getHomeScreenApiProvider(
+                                                                  context:
+                                                                      context,
+                                                                  params:
+                                                                      params);
+                                                        }
+                                                      });
+                                                      Constant.session
+                                                          .setBoolData(
+                                                              SessionManager
+                                                                  .isLocation,
+                                                              true,
+                                                              false);
+                                                    },
+                                                    child:
+                                                        Text('Change Location'),
+                                                  )
+                                                ],
+                                              ));
+                                    }
                                   }
                                   Constant.session.setBoolData(
                                       SessionManager.isLocation, true, false);
@@ -186,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           Navigator.pop(context);
                           Navigator.pushNamed(context, confirmLocationScreen,
-                                  arguments: [null, "location"])
+                                  arguments: [null, null, "bottom_sheet"])
                               .then((value) async {
                             if (value == null) {
                               Map<String, String> params =
@@ -251,7 +310,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     .read<CityByLatLongProvider>()
                     .getCityByLatLongApiProvider(
                         context: context, params: params);
-                if (mounted) {
+                if (mounted &&
+                    context.read<CityByLatLongProvider>().isDeliverable) {
                   setState(() {
                     Future.delayed(Duration.zero).then(
                       (value) async {
@@ -297,6 +357,51 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     );
                   });
+                } else {
+                  if (context.read<CityByLatLongProvider>().isDeliverable) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      mainHomeScreen,
+                      (Route<dynamic> route) => false,
+                    );
+                  } else {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) => CupertinoAlertDialog(
+                              title: Text('Oops!'),
+                              content: Text(
+                                  'We are currently unavailable in your location. Please select a location near our store! Our stores are available in Kakkanad and Ayyappankavu!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(
+                                        context, confirmLocationScreen,
+                                        arguments: [
+                                          null,
+                                          null,
+                                          "bottom_sheet"
+                                        ]).then((value) async {
+                                      if (value == null) {
+                                        Map<String, String> params =
+                                            await Constant
+                                                .getProductsDefaultParams();
+                                        if (!mounted) return;
+                                        await context
+                                            .read<HomeScreenProvider>()
+                                            .getHomeScreenApiProvider(
+                                                context: context,
+                                                params: params);
+                                      }
+                                    });
+                                    Constant.session.setBoolData(
+                                        SessionManager.isLocation, true, false);
+                                  },
+                                  child: Text('Change Location'),
+                                )
+                              ],
+                            ));
+                  }
                 }
               });
             } else if (value.isDenied) {
@@ -377,6 +482,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'value is ============> ${Constant.session.getIntData(SessionManager.notificationTotalCount)}');
     return Scaffold(
       floatingActionButton:
           (context.watch<CartListProvider>().cartList.length > 0)
