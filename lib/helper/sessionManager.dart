@@ -15,6 +15,7 @@ class SessionManager extends ChangeNotifier {
   static String keyUserName = "username";
   static String keyUserImage = "image";
   static String keyPhone = "phone";
+  static String notificationTotalCount = "notificationTotalCount";
   static String keyEmail = "email";
   static String keyCountryCode = "countryCode";
   static String keyReferralCode = "referral_code";
@@ -192,7 +193,7 @@ class SessionManager extends ChangeNotifier {
               signOut(
                 authProvider: authProvider,
                 firebaseAuth: FirebaseAuth.instance,
-                googleSignIn: GoogleSignIn(scopes: ["profile","email"]),
+                googleSignIn: GoogleSignIn(scopes: ["profile", "email"]),
               );
               prefs.clear();
               setBoolData(introSlider, true, false);
@@ -207,6 +208,7 @@ class SessionManager extends ChangeNotifier {
               context.read<CartListProvider>().cartList.clear();
               Navigator.of(buildContext).pushNamedAndRemoveUntil(
                   loginScreen, (Route<dynamic> route) => false);
+              buildContext.read<HomeMainScreenProvider>().selectBottomMenu(0);
             },
             child: CustomTextLabel(
               jsonKey: "ok",
@@ -279,7 +281,7 @@ class SessionManager extends ChangeNotifier {
                 signOut(
                   authProvider: authProvider,
                   firebaseAuth: FirebaseAuth.instance,
-                  googleSignIn: GoogleSignIn(scopes: ["profile","email"]),
+                  googleSignIn: GoogleSignIn(scopes: ["profile", "email"]),
                 );
                 prefs.clear();
                 setBoolData(introSlider, true, false);

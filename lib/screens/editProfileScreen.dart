@@ -17,11 +17,12 @@ class _EditProfileState extends State<EditProfile> {
   late TextEditingController edtUsername = TextEditingController();
   late TextEditingController edtEmail = TextEditingController();
   late TextEditingController edtMobile = TextEditingController();
-  CountryCode? selectedCountryCode;
+  PhoneNumber? selectedCountryCode;
   bool isLoading = false;
   String tempName = "";
   String tempEmail = "";
   String tempMobile = "";
+
   String selectedImagePath = "";
 
   bool isEditable = false;
@@ -48,6 +49,8 @@ class _EditProfileState extends State<EditProfile> {
           ? Constant.session.getData(SessionManager.keyPhone)
           : widget.loginParams?[ApiAndParams.mobile] ?? "";
 
+      selectedCountryCode = PhoneNumber(
+          countryISOCode: "IN", countryCode: "+91", number: tempMobile);
       edtUsername = TextEditingController(text: tempName);
       edtEmail = TextEditingController(text: tempEmail);
       edtMobile = TextEditingController(text: tempMobile);
@@ -185,7 +188,7 @@ class _EditProfileState extends State<EditProfile> {
                         params[ApiAndParams.email] = edtEmail.text.trim();
                         params[ApiAndParams.mobile] = edtMobile.text.trim();
                         params[ApiAndParams.countryCode] =
-                            selectedCountryCode!.dialCode.toString();
+                            selectedCountryCode!.countryCode.toString();
                         userProfileProvider
                             .updateUserProfile(
                                 context: context,
@@ -237,7 +240,7 @@ class _EditProfileState extends State<EditProfile> {
                         params[ApiAndParams.email] = edtEmail.text.trim();
                         params[ApiAndParams.mobile] = edtMobile.text.trim();
                         params[ApiAndParams.countryCode] =
-                            selectedCountryCode!.dialCode.toString();
+                            selectedCountryCode!.countryCode.toString();
                         userProfileProvider
                             .updateUserProfile(
                                 context: context,
@@ -258,7 +261,7 @@ class _EditProfileState extends State<EditProfile> {
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                   confirmLocationScreen,
                                   (Route<dynamic> route) => false,
-                                  arguments: [null, "location"],
+                                  arguments: [null, null, "location"],
                                 );
                               } else {
                                 if (widget.from == "header") {
@@ -360,7 +363,7 @@ class _EditProfileState extends State<EditProfile> {
           editBoxWidget(
             context,
             edtUsername,
-            validateUsername,
+            validateName,
             getTranslatedValue(
               context,
               "user_name",
@@ -394,96 +397,157 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  // mobileNoWidget() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(10),
+  //       border: Border.all(
+  //         color: ColorsRes.subTitleMainTextColor,
+  //         width: 1,
+  //       ),
+  //     ),
+  //     child:
+  //     Row(
+  //       children: [
+  //         const SizedBox(width: 5),
+  //         IgnorePointer(
+  //           ignoring: isLoading,
+  //           child: CountryCodePicker(
+  //             onInit: (countryCode) {
+  //               selectedCountryCode = countryCode;
+  //             },
+  //             onChanged: (countryCode) {
+  //               selectedCountryCode = countryCode;
+  //             },
+  //             enabled: !isEditable,
+  //             initialSelection: Constant.initialCountryCode,
+  //             textOverflow: TextOverflow.ellipsis,
+  //             backgroundColor: Theme.of(context).cardColor,
+  //             textStyle: TextStyle(color: ColorsRes.mainTextColor),
+  //             dialogBackgroundColor: Theme.of(context).cardColor,
+  //             dialogSize: Size(context.width, context.height),
+  //             barrierColor: ColorsRes.subTitleMainTextColor,
+  //             padding: EdgeInsets.zero,
+  //             searchDecoration: InputDecoration(
+  //               iconColor: ColorsRes.subTitleMainTextColor,
+  //               fillColor: Theme.of(context).cardColor,
+  //               border: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(10),
+  //                 borderSide:
+  //                     BorderSide(color: ColorsRes.subTitleMainTextColor),
+  //               ),
+  //               enabledBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(10),
+  //                 borderSide:
+  //                     BorderSide(color: ColorsRes.subTitleMainTextColor),
+  //               ),
+  //               focusedBorder: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(10),
+  //                 borderSide:
+  //                     BorderSide(color: ColorsRes.subTitleMainTextColor),
+  //               ),
+  //               focusColor: Theme.of(context).scaffoldBackgroundColor,
+  //               prefixIcon: Icon(
+  //                 Icons.search_rounded,
+  //                 color: ColorsRes.subTitleMainTextColor,
+  //               ),
+  //             ),
+  //             searchStyle: TextStyle(
+  //               color: ColorsRes.subTitleMainTextColor,
+  //             ),
+  //             dialogTextStyle: TextStyle(
+  //               color: ColorsRes.mainTextColor,
+  //             ),
+  //           ),
+  //         ),
+  //         Icon(
+  //           Icons.keyboard_arrow_down,
+  //           color: ColorsRes.grey,
+  //           size: 15,
+  //         ),
+  //         getSizedBox(
+  //           width: Constant.size10,
+  //         ),
+  //         Expanded(
+  //           child: TextField(
+  //             controller: edtMobile,
+  //             enabled: (!isEditable || edtMobile.text.isEmpty),
+  //             keyboardType: TextInputType.number,
+  //             inputFormatters: <TextInputFormatter>[
+  //               FilteringTextInputFormatter.digitsOnly
+  //             ],
+  //             style: TextStyle(
+  //               color: ColorsRes.mainTextColor,
+  //             ),
+  //             decoration: InputDecoration(
+  //               border: InputBorder.none,
+  //               isDense: true,
+  //               hintStyle: TextStyle(color: Theme.of(context).hintColor),
+  //               hintText: "Mobile Number",
+  //             ),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+
   mobileNoWidget() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: ColorsRes.subTitleMainTextColor,
-          width: 1,
+    return IgnorePointer(
+      ignoring: isLoading,
+      child: IntlPhoneField(
+        enabled: (!isEditable || edtMobile.text.isEmpty),
+        controller: edtMobile,
+
+        onChanged: (number) {
+          print('number is ${number.completeNumber}');
+          tempMobile = number.number;
+        },
+        initialCountryCode: Constant.initialCountryCode,
+        dropdownIconPosition: IconPosition.trailing,
+        dropdownTextStyle: TextStyle(color: ColorsRes.mainTextColor),
+        style: TextStyle(color: ColorsRes.mainTextColor),
+        dropdownIcon: Icon(
+          Icons.keyboard_arrow_down_rounded,
+          color: ColorsRes.mainTextColor,
         ),
-      ),
-      child: Row(
-        children: [
-          const SizedBox(width: 5),
-          IgnorePointer(
-            ignoring: isLoading,
-            child: CountryCodePicker(
-              onInit: (countryCode) {
-                selectedCountryCode = countryCode;
-              },
-              onChanged: (countryCode) {
-                selectedCountryCode = countryCode;
-              },
-              enabled: !isEditable,
-              initialSelection: Constant.initialCountryCode,
-              textOverflow: TextOverflow.ellipsis,
-              backgroundColor: Theme.of(context).cardColor,
-              textStyle: TextStyle(color: ColorsRes.mainTextColor),
-              dialogBackgroundColor: Theme.of(context).cardColor,
-              dialogSize: Size(context.width, context.height),
-              barrierColor: ColorsRes.subTitleMainTextColor,
-              padding: EdgeInsets.zero,
-              searchDecoration: InputDecoration(
-                iconColor: ColorsRes.subTitleMainTextColor,
-                fillColor: Theme.of(context).cardColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      BorderSide(color: ColorsRes.subTitleMainTextColor),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      BorderSide(color: ColorsRes.subTitleMainTextColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      BorderSide(color: ColorsRes.subTitleMainTextColor),
-                ),
-                focusColor: Theme.of(context).scaffoldBackgroundColor,
-                prefixIcon: Icon(
-                  Icons.search_rounded,
-                  color: ColorsRes.subTitleMainTextColor,
-                ),
-              ),
-              searchStyle: TextStyle(
-                color: ColorsRes.subTitleMainTextColor,
-              ),
-              dialogTextStyle: TextStyle(
-                color: ColorsRes.mainTextColor,
-              ),
-            ),
+        flagsButtonMargin: EdgeInsets.only(left: 10),
+        decoration: InputDecoration(
+          counterText: '',
+          hintText: 'Mobile Number',
+          hintStyle: TextStyle(color: Theme.of(context).hintColor),
+          contentPadding: EdgeInsets.zero,
+          iconColor: ColorsRes.subTitleMainTextColor,
+          fillColor: Theme.of(context).cardColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
           ),
-          Icon(
-            Icons.keyboard_arrow_down,
-            color: ColorsRes.grey,
-            size: 15,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
           ),
-          getSizedBox(
-            width: Constant.size10,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorsRes.subTitleMainTextColor),
           ),
-          Expanded(
-            child: TextField(
-              controller: edtMobile,
-              enabled: (!isEditable || edtMobile.text.isEmpty),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              style: TextStyle(
-                color: ColorsRes.mainTextColor,
-              ),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                isDense: true,
-                hintStyle: TextStyle(color: Theme.of(context).hintColor),
-                hintText: "Mobile Number",
-              ),
-            ),
-          )
-        ],
+          focusColor: Theme.of(context).scaffoldBackgroundColor,
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: ColorsRes.subTitleMainTextColor,
+          ),
+        ),
+
+        // backgroundColor: Theme.of(context).cardColor,
+        // textStyle: TextStyle(color: ColorsRes.mainTextColor),
+        // dialogBackgroundColor: Theme.of(context).cardColor,
+        // dialogSize: Size(context.width, context.height),
+        // barrierColor: ColorsRes.subTitleMainTextColor,
+        // padding: EdgeInsets.zero,
+
+        // searchStyle: TextStyle(
+        //   color: ColorsRes.subTitleMainTextColor,
+        // ),
       ),
     );
   }

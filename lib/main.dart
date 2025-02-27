@@ -80,6 +80,9 @@ Future<void> main() async {
         ChangeNotifierProvider<AddressProvider>(
           create: (context) => AddressProvider(),
         ),
+        ChangeNotifierProvider<NotificationProvider>(
+          create: (context) => NotificationProvider(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -101,9 +104,11 @@ class GlobalScrollBehavior extends ScrollBehavior {
 }
 
 class MyAppState extends State<MyApp> {
+  final LocalAwesomeNotification localNotification = LocalAwesomeNotification();
   @override
   void initState() {
     super.initState();
+    localNotification.init(context);
   }
 
   @override
@@ -199,7 +204,6 @@ class MyAppState extends State<MyApp> {
                         GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
                   ),
                   localizationsDelegates: [
-                    CountryLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],

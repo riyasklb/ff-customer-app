@@ -4,13 +4,15 @@ export 'dart:io';
 export 'dart:math';
 export 'dart:typed_data';
 
+export 'package:intl_phone_field/intl_phone_field.dart';
+export 'package:intl_phone_field/phone_number.dart';
 export 'package:project/helper/generalWidgets/cartFloatingButton.dart';
 export 'package:audioplayers/audioplayers.dart';
 export 'package:app_links/app_links.dart';
 export 'package:awesome_notifications/awesome_notifications.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:country_code_picker/country_code_picker.dart';
+// export 'package:country_code_picker/country_code_picker.dart';
 export 'package:flutter_polyline_points/flutter_polyline_points.dart';
 export 'package:project/models/liveOrderTracking.dart';
 export 'package:project/provider/liveOrderTrackingProvider.dart';

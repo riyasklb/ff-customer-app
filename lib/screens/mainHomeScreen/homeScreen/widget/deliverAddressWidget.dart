@@ -7,16 +7,11 @@ class DeliveryAddressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, confirmLocationScreen,
-            arguments: [null, "location"]).then((value) async {
-          if (value == null) {
-            Map<String, String> params =
-                await Constant.getProductsDefaultParams();
-            return await context
-                .read<HomeScreenProvider>()
-                .getHomeScreenApiProvider(context: context, params: params);
-          }
-        });
+        Navigator.pushNamed(context, confirmLocationScreen, arguments: [
+          Constant.session.getData(SessionManager.keyLatitude),
+          Constant.session.getData(SessionManager.keyLongitude),
+          "home_screen"
+        ]);
       },
       child: ListTile(
         contentPadding: EdgeInsetsDirectional.zero,

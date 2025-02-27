@@ -100,7 +100,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       box!.localToGlobal(Offset.zero) & box.size;
 
                   await Share.share(
-                    "${product.name}\n\n${Constant.hostUrl}product/${product.slug}",
+                    "${product.name}\n\n${Constant.shareUrl}product/${product.slug}",
                     subject: "Share app",
                     sharePositionOrigin: sharePositionOrigin,
                   );

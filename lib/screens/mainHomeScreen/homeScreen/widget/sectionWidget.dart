@@ -15,7 +15,8 @@ class SectionWidget extends StatelessWidget {
           children: List.generate(
             homeScreenProvider.homeScreenData.sections?.length ?? 0,
             (index) {
-              Sections? section = homeScreenProvider.homeScreenData.sections?[index];
+              Sections? section =
+                  homeScreenProvider.homeScreenData.sections?[index];
               if (section!.products!.isNotEmpty) {
                 if (position.toString() == section.position.toString()) {
                   return Container(

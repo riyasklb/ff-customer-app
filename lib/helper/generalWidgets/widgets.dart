@@ -1,4 +1,5 @@
 import 'package:project/helper/utils/generalImports.dart';
+import 'package:badges/badges.dart' as badges;
 
 Widget gradientBtnWidget(BuildContext context, double borderRadius,
     {required Function callback,
@@ -379,7 +380,7 @@ AppBar getAppBar(
             ),
           )
         : null,
-    automaticallyImplyLeading: true,
+    automaticallyImplyLeading: showBackButton ?? true,
     elevation: 0,
     titleSpacing: 0,
     title: Row(
@@ -603,16 +604,50 @@ Widget setRefreshIndicator(
 //   );
 // }
 
+ValueNotifier<int> notificationCount = ValueNotifier(
+  Constant.session.getIntData(SessionManager.notificationTotalCount),
+);
+void updateNotificationCount() {
+  notificationCount.value =
+      Constant.session.getIntData(SessionManager.notificationTotalCount);
+}
+
 Widget setNotificationIcon({required BuildContext context}) {
-  return IconButton(
-    onPressed: () {
-      Navigator.pushNamed(context, notificationListScreen);
-    },
-    icon: defaultImg(
-      image: "notification_icon",
-      iconColor: ColorsRes.appColor,
-    ),
-  );
+  return ValueListenableBuilder<int>(
+      valueListenable: notificationCount,
+      builder: (context, count, child) {
+        return IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, notificationListScreen);
+          },
+          icon: count > 0
+              ? badges.Badge(
+                  position: count > 9
+                      ? badges.BadgePosition.topEnd(top: -12, end: -5)
+                      : badges.BadgePosition.topEnd(top: -14, end: -5),
+                  badgeStyle: badges.BadgeStyle(
+                    padding: EdgeInsets.all(count > 9 ? 3 : 6),
+                    // badgeColor: ColorsRes.appColorWhite,
+                  ),
+                  badgeAnimation: badges.BadgeAnimation.scale(toAnimate: false),
+                  badgeContent: Text(
+                    '${count}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: ColorsRes.appColorWhite,
+                        fontSize: count > 9 ? 12 : 14),
+                  ),
+                  child: defaultImg(
+                    image: "notification_icon",
+                    iconColor: ColorsRes.appColor,
+                  ),
+                )
+              : defaultImg(
+                  image: "notification_icon",
+                  iconColor: ColorsRes.appColor,
+                ),
+        );
+      });
 }
 
 Widget getOverallRatingSummary(

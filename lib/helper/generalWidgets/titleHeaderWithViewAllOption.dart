@@ -43,6 +43,26 @@ class TitleHeaderWithViewAllOption extends StatelessWidget {
                       ),
                     ),
                   ),
+                  GestureDetector(
+                    onTap: onTap,
+                    child: Row(
+                      children: [
+                        CustomTextLabel(
+                          jsonKey: "see_all",
+                          softWrap: true,
+                          style: TextStyle(
+                            color: ColorsRes.mainTextColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                        getSizedBox(width: 5),
+                        Icon(
+                          Icons.arrow_circle_right,
+                          color: ColorsRes.appColor,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               if (subtitle != null) ...[
@@ -54,7 +74,7 @@ class TitleHeaderWithViewAllOption extends StatelessWidget {
                   child: CustomTextLabel(
                     jsonKey: subtitle,
                     softWrap: true,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 14,
@@ -66,26 +86,26 @@ class TitleHeaderWithViewAllOption extends StatelessWidget {
             ],
           ),
         ),
-        GestureDetector(
-          onTap: onTap,
-          child: Row(
-            children: [
-              CustomTextLabel(
-                jsonKey: "see_all",
-                softWrap: true,
-                style: TextStyle(
-                  color: ColorsRes.mainTextColor,
-                  fontSize: 14,
-                ),
-              ),
-              getSizedBox(width: 5),
-              Icon(
-                Icons.arrow_circle_right,
-                color: ColorsRes.appColor,
-              ),
-            ],
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: onTap,
+        //   child: Row(
+        //     children: [
+        //       CustomTextLabel(
+        //         jsonKey: "see_all",
+        //         softWrap: true,
+        //         style: TextStyle(
+        //           color: ColorsRes.mainTextColor,
+        //           fontSize: 14,
+        //         ),
+        //       ),
+        //       getSizedBox(width: 5),
+        //       Icon(
+        //         Icons.arrow_circle_right,
+        //         color: ColorsRes.appColor,
+        //       ),
+        //     ],
+        //   ),
+        // ),
         getSizedBox(width: 15),
       ],
     );

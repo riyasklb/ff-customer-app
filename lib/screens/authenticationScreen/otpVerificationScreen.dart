@@ -5,7 +5,7 @@ class OtpVerificationScreen extends StatefulWidget {
   final String otpVerificationId;
   final String phoneNumber;
   final FirebaseAuth firebaseAuth;
-  final CountryCode selectedCountryCode;
+  final PhoneNumber selectedCountryCode;
   final String? from;
 
   const OtpVerificationScreen({
@@ -61,6 +61,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('widget.from ---------> ${widget.from}');
     defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
@@ -171,7 +172,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                   params: {
                     ApiAndParams.phone: widget.phoneNumber,
                     ApiAndParams.countryCode:
-                        widget.selectedCountryCode.dialCode.toString(),
+                        widget.selectedCountryCode.countryCode.toString(),
                     ApiAndParams.otp: pinController.text,
                   },
                 ).then(
@@ -187,7 +188,8 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                               .setUserDataInSession(mainData, context);
                         }
 
-                        if (widget.from == "add_to_cart") {
+                        if (widget.from == "add_to_cart_register") {
+                          print('add to cart');
                           addGuestCartBulkToCartWhileLogin(
                             context: context,
                             params: Constant.setGuestCartParams(
@@ -200,6 +202,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                           });
                         } else if (Constant.session
                             .getBoolData(SessionManager.isUserLogin)) {
+                          print('not add to cart');
                           if (context
                               .read<CartListProvider>()
                               .cartList
@@ -218,6 +221,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                               ),
                             );
                           } else {
+                            print('not add to cart');
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               mainHomeScreen,
                               (Route<dynamic> route) => false,
@@ -231,7 +235,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                           ApiAndParams.name: "",
                           ApiAndParams.email: "",
                           ApiAndParams.countryCode:
-                              widget.selectedCountryCode.dialCode.toString(),
+                              widget.selectedCountryCode.countryCode.toString(),
                           ApiAndParams.mobile: widget.phoneNumber,
                           ApiAndParams.type: "phone",
                           ApiAndParams.platform:
@@ -251,7 +255,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                         ApiAndParams.name: "",
                         ApiAndParams.email: "",
                         ApiAndParams.countryCode:
-                            widget.selectedCountryCode.dialCode.toString(),
+                            widget.selectedCountryCode.countryCode.toString(),
                         ApiAndParams.mobile: widget.phoneNumber,
                         ApiAndParams.type: "phone",
                         ApiAndParams.platform:
@@ -330,6 +334,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
         );
         setState(() {
           isLoading = false;
+          pinController.clear();
         });
       });
     });
@@ -360,7 +365,8 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
             jsonKey: "otp_send_message",
           ),
           CustomTextLabel(
-            text: "${widget.selectedCountryCode}-${widget.phoneNumber}",
+            text:
+                "${widget.selectedCountryCode.countryCode}-${widget.phoneNumber}",
           ),
           const SizedBox(height: 60),
           otpPinWidget(),
@@ -397,7 +403,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
           .loginApi(context: context, params: params)
           .then((value) async {
         if (value == "1") {
-          if (widget.from == "add_to_cart") {
+          if (widget.from == "add_to_cart_register") {
             addGuestCartBulkToCartWhileLogin(
               context: context,
               params: Constant.setGuestCartParams(
@@ -408,6 +414,8 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
               Navigator.pop(context);
             });
           } else if (Constant.session.getBoolData(SessionManager.isUserLogin)) {
+            print('widget.from otp ------------------> ${widget.from}');
+            context.read<HomeMainScreenProvider>().selectBottomMenu(0);
             if (context.read<CartListProvider>().cartList.isNotEmpty) {
               addGuestCartBulkToCartWhileLogin(
                 context: context,
@@ -421,6 +429,8 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                 ),
               );
             } else {
+              print('widget.from otp ------------------> ${widget.from}');
+              context.read<HomeMainScreenProvider>().selectBottomMenu(0);
               Navigator.of(context).pushNamedAndRemoveUntil(
                 mainHomeScreen,
                 (Route<dynamic> route) => false,
@@ -445,13 +455,12 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
             ApiAndParams.type: "phone",
             ApiAndParams.name: user.displayName ?? "",
             ApiAndParams.email: user.email ?? "",
-            ApiAndParams.countryCode: widget.selectedCountryCode.dialCode
-                    ?.replaceAll("+", "")
+            ApiAndParams.countryCode: widget.selectedCountryCode.countryCode
+                    .replaceAll("+", "")
                     .toString() ??
                 "",
-            ApiAndParams.mobile: user.phoneNumber
-                .toString()
-                .replaceAll(widget.selectedCountryCode.dialCode.toString(), ""),
+            ApiAndParams.mobile: user.phoneNumber.toString().replaceAll(
+                widget.selectedCountryCode.countryCode.toString(), ""),
             ApiAndParams.type: "phone",
             ApiAndParams.platform: Platform.isAndroid ? "android" : "ios",
             ApiAndParams.fcmToken:
@@ -499,19 +508,24 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
     if (widget.phoneNumber.isNotEmpty) {
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber:
-            '${widget.selectedCountryCode.dialCode} - ${widget.phoneNumber}',
+            '${widget.selectedCountryCode.countryCode} - ${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) {
           pinController.setText(credential.smsCode ?? "");
         },
         verificationFailed: (FirebaseAuthException e) {
+          print('hai i am here');
           showMessage(
             context,
             e.message!,
             MessageType.warning,
           );
+          pinController.clear();
           if (mounted) {
+            print('hai i am here kkk');
             isLoading = false;
-            setState(() {});
+            setState(() {
+              pinController.clear();
+            });
           }
         },
         codeSent: (String verificationId, int? resendToken) {

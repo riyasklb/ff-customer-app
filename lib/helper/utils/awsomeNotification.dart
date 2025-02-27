@@ -42,8 +42,9 @@ class LocalAwesomeNotification {
           ],
           channelGroups: [
             NotificationChannelGroup(
-                channelGroupKey: "Basic notifications",
-                channelGroupName: 'Basic notifications')
+              channelGroupKey: "Basic notifications",
+              channelGroupName: 'Basic notifications',
+            )
           ],
           debug: kDebugMode,
         );
@@ -147,6 +148,12 @@ class LocalAwesomeNotification {
   createImageNotification(
       {required RemoteMessage data, required bool isLocked}) async {
     try {
+      int currentCount =
+          Constant.session.getIntData(SessionManager.notificationTotalCount);
+      Constant.session
+          .setIntData(SessionManager.notificationTotalCount, currentCount + 1);
+      print(
+          'new notification value is -----------------> ${Constant.session.getIntData(SessionManager.notificationTotalCount)}');
       await notification?.createNotification(
         content: NotificationContent(
           id: Random().nextInt(5000),
@@ -175,6 +182,14 @@ class LocalAwesomeNotification {
   createNotification(
       {required RemoteMessage data, required bool isLocked}) async {
     try {
+      int currentCount =
+          Constant.session.getIntData(SessionManager.notificationTotalCount);
+      Constant.session
+          .setIntData(SessionManager.notificationTotalCount, currentCount + 1);
+      print(
+          'new notification value is -----------------> ${Constant.session.getIntData(SessionManager.notificationTotalCount)}');
+      notificationCount.value = currentCount + 1;
+      print('count is ------------> ${notificationCount.value}');
       await notification?.createNotification(
         content: NotificationContent(
           id: Random().nextInt(5000),
@@ -245,6 +260,8 @@ class LocalAwesomeNotification {
   @pragma('vm:entry-point')
   static Future<void> onBackgroundMessageHandler(RemoteMessage data) async {
     try {
+      debugPrint("background notification handler invoked.");
+
       if (Platform.isAndroid) {
         if (data.data["image"] == "" || data.data["image"] == null) {
           localNotification?.createNotification(isLocked: false, data: data);
@@ -266,6 +283,7 @@ class LocalAwesomeNotification {
       onMessageOpen =
           FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         debugPrint("Foreground notification handler invoked.");
+
         if (Platform.isAndroid) {
           if (message.data["image"] == "" || message.data["image"] == null) {
             localNotification?.createNotification(
@@ -304,6 +322,7 @@ class LocalAwesomeNotification {
   @pragma('vm:entry-point')
   static registerListeners(context) async {
     try {
+      print('hey budhuuuu');
       FirebaseMessaging.onBackgroundMessage(onBackgroundMessageHandler);
       messagingInstance?.setForegroundNotificationPresentationOptions(
           alert: true, badge: true, sound: true);
