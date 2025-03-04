@@ -58,7 +58,7 @@ class TitleHeaderWithViewAllOption extends StatelessWidget {
                         getSizedBox(width: 5),
                         Icon(
                           Icons.arrow_circle_right,
-                          color: ColorsRes.appColor,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ],
                     ),

@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     bool isLoad = true;
     print(
         'hello home screen ---------------> delivery available -------->  ${context.read<CityByLatLongProvider>().isDeliverable}');
@@ -369,8 +368,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         context: context,
                         builder: (BuildContext context) => CupertinoAlertDialog(
                               title: Text('Oops!'),
-                              content: Text(
-                                  'We are currently unavailable in your location. Please select a location near our store! Our stores are available in Kakkanad and Ayyappankavu!'),
+                              content: CustomTextLabel(
+                                jsonKey: "does_not_delivery_long_message",
+                              ),
                               actions: [
                                 TextButton(
                                   onPressed: () {

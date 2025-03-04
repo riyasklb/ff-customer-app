@@ -363,7 +363,7 @@ class _EditProfileState extends State<EditProfile> {
           editBoxWidget(
             context,
             edtUsername,
-            validateName,
+            validateUsername,
             getTranslatedValue(
               context,
               "user_name",

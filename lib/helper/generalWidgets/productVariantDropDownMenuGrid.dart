@@ -21,11 +21,22 @@ class ProductVariantDropDownMenuGrid extends StatefulWidget {
 
 class _ProductVariantDropDownMenuGridState
     extends State<ProductVariantDropDownMenuGrid> {
+  int getAvailableVariantIndex(List<Variants> variant) {
+    for (int i = 0; i < variant.length; i++) {
+      if (variant[i].stock != "0") {
+        return i;
+      }
+    }
+    return 0; // Return 0 if all variants have stock "0"
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<SelectedVariantItemProvider>(
       builder: (context, selectedVariantItemProvider, _) {
         if (widget.variants?.length != 0) {
+          int availableIndex = getAvailableVariantIndex(widget.variants!);
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,22 +51,15 @@ class _ProductVariantDropDownMenuGridState
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CustomTextLabel(
-                            text: double.parse(widget
-                                        .variants![selectedVariantItemProvider
-                                            .getSelectedIndex()]
+                            text: double.parse(widget.variants![availableIndex]
                                         .discountedPrice
                                         .toString()) !=
                                     0
                                 ? widget
-                                    .variants![selectedVariantItemProvider
-                                        .getSelectedIndex()]
-                                    .discountedPrice
+                                    .variants![availableIndex].discountedPrice
                                     .toString()
                                     .currency
-                                : widget
-                                    .variants![selectedVariantItemProvider
-                                        .getSelectedIndex()]
-                                    .price
+                                : widget.variants![availableIndex].price
                                     .toString()
                                     .currency,
                             softWrap: true,
@@ -67,7 +71,8 @@ class _ProductVariantDropDownMenuGridState
                             ),
                           ),
                           getSizedBox(width: 5),
-                          if (double.parse(widget.variants![0].discountedPrice
+                          if (double.parse(widget
+                                  .variants![availableIndex].discountedPrice
                                   .toString()) !=
                               0)
                             RichText(
@@ -83,10 +88,12 @@ class _ProductVariantDropDownMenuGridState
                                     decorationThickness: 2,
                                   ),
                                   text: (double.parse(widget
-                                              .variants![0].discountedPrice
+                                              .variants![availableIndex]
+                                              .discountedPrice
                                               .toString())) !=
                                           0
-                                      ? widget.variants![0].PriceGST
+                                      ? widget
+                                          .variants![availableIndex].PriceGST
                                           .toString()
                                           .currency
                                       : "",
@@ -433,29 +440,19 @@ class _ProductVariantDropDownMenuGridState
                 width: double.maxFinite,
                 child: ProductCartButton(
                   productId: widget.product.id.toString(),
-                  productVariantId: widget
-                      .variants![selectedVariantItemProvider.getSelectedIndex()]
-                      .id
-                      .toString(),
-                  count: int.parse(widget
-                              .variants![selectedVariantItemProvider
-                                  .getSelectedIndex()]
-                              .status
+                  productVariantId:
+                      widget.variants![availableIndex].id.toString(),
+                  count: int.parse(widget.variants![availableIndex].status
                               .toString()) ==
                           0
                       ? -1
-                      : int.parse(widget
-                          .variants![
-                              selectedVariantItemProvider.getSelectedIndex()]
-                          .cartCount
+                      : int.parse(widget.variants![availableIndex].cartCount
                           .toString()),
                   isUnlimitedStock: widget.product.isUnlimitedStock == "1",
                   maximumAllowedQuantity: double.parse(
                       widget.product.totalAllowedQuantity.toString()),
-                  availableStock: double.parse(widget
-                      .variants![selectedVariantItemProvider.getSelectedIndex()]
-                      .stock
-                      .toString()),
+                  availableStock: double.parse(
+                      widget.variants![availableIndex].stock.toString()),
                   isGrid: widget.isGrid,
                   sellerId: widget.product.sellerId.toString(),
                 ),

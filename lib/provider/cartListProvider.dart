@@ -101,10 +101,14 @@ class CartListProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      print(
+          'Stock is $availableStock and qty is ${double.parse(params[ApiAndParams.qty].toString())}');
+
       Map<String, dynamic> response = {};
 
       if (int.parse(params[ApiAndParams.qty].toString()) > 0) {
         if (isUnlimitedStock) {
+          print('it is unlimited');
           if (double.parse(params[ApiAndParams.qty].toString()) >
                   maximumAllowedQuantity &&
               actionFor == "add") {
@@ -142,7 +146,7 @@ class CartListProvider extends ChangeNotifier {
 
                 context.read<CartProvider>().setItemCount(int.parse(
                     response[ApiAndParams.cartItemsCount].toString()));
-                    
+
                 addRemoveCartItemFromLocalList(
                     productId: params[ApiAndParams.productId].toString(),
                     productVariantId:
@@ -181,6 +185,7 @@ class CartListProvider extends ChangeNotifier {
           if (double.parse(params[ApiAndParams.qty].toString()) >
                   availableStock &&
               actionFor == "add") {
+            print('it is limited stock finished');
             showMessage(
               context,
               getTranslatedValue(
@@ -194,6 +199,7 @@ class CartListProvider extends ChangeNotifier {
           } else if (double.parse(params[ApiAndParams.qty].toString()) >
                   maximumAllowedQuantity &&
               actionFor == "add") {
+            print('it is limited maxm reached');
             showMessage(
               context,
               getTranslatedValue(
@@ -205,6 +211,7 @@ class CartListProvider extends ChangeNotifier {
             cartListState = CartListState.error;
             notifyListeners();
           } else {
+            print('it is limited qty added');
             try {
               response =
                   await addItemToCartApi(context: context, params: params);
@@ -275,19 +282,19 @@ class CartListProvider extends ChangeNotifier {
           context.read<CartProvider>().setSubTotal(
               double.parse(response[ApiAndParams.subTotal].toString()));
 
-                              context
-                    .read<CartProvider>()
-                    .setGst(double.parse(response["gst_total"].toString()));
+          context
+              .read<CartProvider>()
+              .setGst(double.parse(response["gst_total"].toString()));
 
-                context
-                    .read<CartProvider>()
-                    .setDiscount(double.parse(response["discount"].toString()));
+          context
+              .read<CartProvider>()
+              .setDiscount(double.parse(response["discount"].toString()));
 
-                context.read<CartProvider>().setItemPrice(
-                    double.parse(response["items_price_total"].toString()));
+          context.read<CartProvider>().setItemPrice(
+              double.parse(response["items_price_total"].toString()));
 
-                context.read<CartProvider>().setSavedAmount(
-                    double.parse(response["saved_amount"].toString()));
+          context.read<CartProvider>().setSavedAmount(
+              double.parse(response["saved_amount"].toString()));
 
           context.read<CartProvider>().setItemCount(
               int.parse(response[ApiAndParams.cartItemsCount].toString()));

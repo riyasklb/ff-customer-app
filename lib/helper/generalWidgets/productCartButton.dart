@@ -346,6 +346,7 @@ class _ProductCartButtonState
                                     isUnlimitedStock: widget.isUnlimitedStock,
                                     maximumAllowedQuantity:
                                         widget.maximumAllowedQuantity,
+                                    actionFor: "add",
                                     availableStock: widget.availableStock,
                                     from: widget.from,
                                     sellerId: widget.sellerId,
@@ -456,6 +457,7 @@ class _ProductCartButtonState
                                     context: context,
                                     params: params,
                                     isUnlimitedStock: widget.isUnlimitedStock,
+                                    actionFor: "add",
                                     maximumAllowedQuantity:
                                         widget.maximumAllowedQuantity,
                                     availableStock: widget.availableStock,

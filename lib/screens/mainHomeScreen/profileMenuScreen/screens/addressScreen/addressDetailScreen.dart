@@ -326,7 +326,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtLandmark,
-              emptyValidation,
+              validateLandmark,
               getTranslatedValue(
                 context,
                 "landmark",
@@ -342,7 +342,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtCity,
-              emptyValidation,
+              validateCity,
               getTranslatedValue(
                 context,
                 "city",
@@ -358,7 +358,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtArea,
-              emptyValidation,
+              validateArea,
               getTranslatedValue(
                 context,
                 "area",

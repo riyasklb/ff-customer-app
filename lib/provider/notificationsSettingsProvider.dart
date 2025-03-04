@@ -83,27 +83,34 @@ class NotificationsSettingsProvider extends ChangeNotifier {
             notificationSettingsDataList[i];
 
         if (i < (notificationSettingsDataList.length - 1)) {
+          print(
+              'order are -----> $mobileStatusesList${mobileSettings[i].toString()}');
           statusIdsList =
               "$statusIdsList${notificationsSettingsData.orderStatusId.toString()},";
           mailStatusesList = "$mailStatusesList${mailSettings[i].toString()},";
           mobileStatusesList =
               "$mobileStatusesList${mobileSettings[i].toString()},";
-          smsStatusesList = "$mobileStatusesList${smsSettings[i].toString()},";
+          smsStatusesList = "$smsStatusesList${smsSettings[i].toString()},";
         } else {
+          print(
+              'order is ------> $mobileStatusesList${mobileSettings[i].toString()}');
           statusIdsList =
               "$statusIdsList${notificationsSettingsData.orderStatusId.toString()}";
           mailStatusesList = "$mailStatusesList${mailSettings[i].toString()}";
           mobileStatusesList =
               "$mobileStatusesList${mobileSettings[i].toString()}";
-          smsStatusesList = "$mobileStatusesList${smsSettings[i].toString()}";
+          smsStatusesList = "$smsStatusesList${smsSettings[i].toString()}";
         }
       }
+
+      print('Status List is $mobileStatusesList');
+      print('SMS List is $smsStatusesList');
 
       Map<String, String> params = {};
       params[ApiAndParams.statusIds] = statusIdsList;
       params[ApiAndParams.mobileStatuses] = mobileStatusesList;
       params[ApiAndParams.mailStatuses] = mailStatusesList;
-      params[ApiAndParams.smsStatuses] = smsStatusesList;
+      params[ApiAndParams.smsStatuses] = mobileStatusesList;
 
       Map<String, dynamic> notificationSettingsUpdateApiResponse =
           await updateAppNotificationSettingsRepository(
@@ -114,6 +121,7 @@ class NotificationsSettingsProvider extends ChangeNotifier {
         notificationSettingsUpdateApiResponse[ApiAndParams.message],
         MessageType.success,
       );
+      Navigator.of(context).pop();
       notificationsSettingsUpdateState =
           NotificationsSettingsUpdateState.loaded;
       notifyListeners();

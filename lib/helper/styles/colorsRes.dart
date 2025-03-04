@@ -17,7 +17,7 @@ class ColorsRes {
     },
   );
 
-    static MaterialColor darkAppColor = const MaterialColor(
+  static MaterialColor darkAppColor = const MaterialColor(
     0xFF4A52D0,
     <int, Color>{
       50: Color(0xFF4A52D0),
@@ -34,7 +34,8 @@ class ColorsRes {
   );
 
   static Color appColorLight = const Color(0xff2E3593);
-  static Color appColorLightHalfTransparent = const Color(0x262E3593);
+  static Color appColorLightHalfTransparent =
+      const Color(0x909FE249).withOpacity(0.3);
   static Color appColorDark = const Color(0xFF4A52D0);
 
   static Color gradient1 = const Color(0xff3c4299);
@@ -110,7 +111,6 @@ class ColorsRes {
     statusBgColorCancelled,
     statusBgColorReturned,
   ];
-
 
   static Color statusTextColorPendingPayment = Color(0xffDD6B20);
   static Color statusTextColorReceived = Color(0xff319795);

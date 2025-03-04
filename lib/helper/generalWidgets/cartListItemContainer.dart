@@ -185,6 +185,7 @@ class _State extends State<CartListItemContainer> {
                                                   isUnlimitedStock:
                                                       cart.isUnlimitedStock ==
                                                           "1",
+                                                  actionFor: "add",
                                                   maximumAllowedQuantity:
                                                       double.parse(cart
                                                           .totalAllowedQuantity),

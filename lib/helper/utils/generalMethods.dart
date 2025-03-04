@@ -199,10 +199,32 @@ String? validateEmail(String value) {
   }
 }
 
+// String? validateUsername(String value) {
+//   RegExp regex = RegExp(r'^[a-zA-Z0-9_.]{3,20}$');
+//   if (value.trim().isEmpty || !regex.hasMatch(value)) {
+//     return "";
+//   } else {
+//     return null;
+//   }
+// }
+
 String? validateUsername(String value) {
   RegExp regex = RegExp(r'^[a-zA-Z0-9_.]{3,20}$');
-  if (value.trim().isEmpty || !regex.hasMatch(value)) {
+  RegExp onlyNumbers = RegExp(r'^\d+$');
+
+  if (value.trim().isEmpty ||
+      !regex.hasMatch(value) ||
+      onlyNumbers.hasMatch(value)) {
     return "";
+  } else {
+    return null;
+  }
+}
+
+String? validateLandmark(String value) {
+  RegExp regex = RegExp(r'^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{3,50}$');
+  if (value.trim().isEmpty || !regex.hasMatch(value)) {
+    return "Only letters and numbers allowed. Cannot be only numbers.";
   } else {
     return null;
   }
@@ -247,6 +269,26 @@ validateName(String value) {
   }
   if (value.length < 3) {
     return 'Name must be at least 2 characters long';
+  }
+  return null;
+}
+
+validateCity(String value) {
+  if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
+    return 'Enter a valid name (only letters and spaces)';
+  }
+  if (value.length < 3) {
+    return 'Name must be at least 2 characters long';
+  }
+  return null;
+}
+
+String? validateArea(String value) {
+  if (!RegExp(r"^[a-zA-Z0-9\s-]+$").hasMatch(value)) {
+    return 'Enter a valid area name (only letters, numbers, spaces, and hyphens)';
+  }
+  if (value.length < 3) {
+    return 'Area name must be at least 3 characters long';
   }
   return null;
 }

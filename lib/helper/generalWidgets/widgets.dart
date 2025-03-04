@@ -499,7 +499,7 @@ Widget getSearchWidget({
                   Theme.of(context).scaffoldBackgroundColor, 10),
               child: ListTile(
                 title: TextField(
-                  enabled: false,
+                  enabled: true,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     isDense: true,
