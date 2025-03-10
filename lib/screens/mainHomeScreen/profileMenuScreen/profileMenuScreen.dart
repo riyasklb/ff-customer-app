@@ -26,8 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'id in on is ----------------- ${context.read<CheckoutProvider>().selectedAddress!.id}');
     return Scaffold(
       appBar: getAppBar(
         context: context,
@@ -41,8 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: Consumer<CheckoutProvider>(
         builder: (context, checkoutProvider, _) {
-          print(
-              'id is hhh ----------------- ${checkoutProvider.selectedAddress!.id}');
           setProfileMenuList();
           return ListView(
             controller: widget.scrollController,
@@ -235,10 +231,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
             context,
             "share_app_message",
           );
+          String shareAppMessage2 = getTranslatedValue(
+            context,
+            "share_app_message_2",
+          );
           if (Platform.isAndroid) {
-            shareAppMessage = "$shareAppMessage${Constant.playStoreUrl}";
+            shareAppMessage =
+                "$shareAppMessage${Constant.playStoreUrl}$shareAppMessage2";
           } else if (Platform.isIOS) {
-            shareAppMessage = "$shareAppMessage${Constant.appStoreUrl}";
+            shareAppMessage =
+                "$shareAppMessage${Constant.appStoreUrl}$shareAppMessage2";
           }
           Share.share(shareAppMessage, subject: "Share app");
         },

@@ -479,7 +479,7 @@ class _CheckboxState extends State<CustomCheckbox>
               value: value,
               tristate: tristate,
               onChanged: onChanged,
-              activeColor: widget.activeColor ?? ColorsRes.appColor,
+              activeColor: widget.activeColor ?? Theme.of(context).primaryColor,
               checkColor: widget.checkColor,
               focusColor: widget.focusColor,
               focusNode: widget.focusNode,

@@ -63,7 +63,8 @@ class _CustomPromoCodeDialogState extends State<CustomPromoCodeDialog> {
                 text: "\"${widget.couponCode}\"",
                 softWrap: true,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: ColorsRes.appColor, fontWeight: FontWeight.w400),
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w400),
               ),
               getSizedBox(width: 10),
               CustomTextLabel(
@@ -91,7 +92,8 @@ class _CustomPromoCodeDialogState extends State<CustomPromoCodeDialog> {
               CustomTextLabel(
                 text: widget.couponAmount.toString().currency,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: ColorsRes.appColor, fontWeight: FontWeight.w500),
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w500),
                 softWrap: true,
               ),
             ],

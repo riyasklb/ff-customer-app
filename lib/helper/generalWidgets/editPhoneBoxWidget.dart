@@ -3,10 +3,12 @@ import 'package:project/helper/utils/generalImports.dart';
 Widget editPhoneBoxBoxWidget(
   BuildContext context,
   TextEditingController edtController,
-  // Function validationFunction,
+  FutureOr<String?> Function(PhoneNumber?)? validationFunction,
   String label, {
   bool? isLastField,
-  String? number,
+  Function(String)? onCountryCodeChanged,
+  Function(String)? onNumberChanged,
+  String? countryCode,
   bool? isEditable = true,
   TextInputAction? optionalTextInputAction,
   int? minLines,
@@ -16,6 +18,7 @@ Widget editPhoneBoxBoxWidget(
   void Function()? onTap,
   bool? readOnly,
 }) {
+  print('country code is ${countryCode}');
   return IntlPhoneField(
     controller: edtController,
     dropdownTextStyle: TextStyle(color: ColorsRes.mainTextColor),
@@ -27,10 +30,16 @@ Widget editPhoneBoxBoxWidget(
     dropdownIconPosition: IconPosition.trailing,
     readOnly: readOnly ?? false,
     flagsButtonMargin: EdgeInsets.only(left: 10),
-    initialCountryCode: "IN",
+    initialCountryCode: countryCode ?? "IN",
     onChanged: (value) {
       print('full number is ${value.completeNumber}');
-      number = value.completeNumber;
+      onNumberChanged?.call(value.completeNumber);
+      onCountryCodeChanged?.call(value.countryISOCode);
+      print('country code is ${countryCode}');
+    },
+    onCountryChanged: (value) {
+      print('country code is ${value.code}');
+      onCountryCodeChanged?.call(value.code);
     },
     textInputAction: optionalTextInputAction ??
         (isLastField == true ? TextInputAction.done : TextInputAction.next),
@@ -45,7 +54,7 @@ Widget editPhoneBoxBoxWidget(
           Radius.circular(8),
         ),
         borderSide: BorderSide(
-          color: ColorsRes.appColor,
+          color: Theme.of(context).primaryColor,
           width: 1,
           style: BorderStyle.solid,
           strokeAlign: BorderSide.strokeAlignCenter,
@@ -110,5 +119,18 @@ Widget editPhoneBoxBoxWidget(
           floatingLabelBehavior ?? FloatingLabelBehavior.auto,
     ),
     autovalidateMode: AutovalidateMode.onUserInteraction,
+    validator: (value) {
+      if (validationFunction != null) {
+        if (validationFunction(value) == null) {
+          print('mobile number is valid');
+          return null;
+        } else {
+          print('iam here mobile');
+          return "Invalid Phone Number";
+        }
+      }
+      print('hhe hee hee');
+      return null;
+    },
   );
 }

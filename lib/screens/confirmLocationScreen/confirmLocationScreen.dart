@@ -333,7 +333,7 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
               children: [
                 defaultImg(
                   image: "address_icon",
-                  iconColor: ColorsRes.appColor,
+                  iconColor: Theme.of(context).primaryColor,
                   height: 25,
                   width: 25,
                 ),

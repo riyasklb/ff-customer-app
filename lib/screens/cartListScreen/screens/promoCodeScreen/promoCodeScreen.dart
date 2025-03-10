@@ -134,7 +134,7 @@ class _PromoCodeListScreenState extends State<PromoCodeListScreen> {
                       promoCode.promoCode,
                       promoCode.isApplicable == "0"
                           ? ColorsRes.grey
-                          : ColorsRes.appColor,
+                          : Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -167,7 +167,7 @@ class _PromoCodeListScreenState extends State<PromoCodeListScreen> {
                               5,
                               bordercolor: promoCode.isApplicable == "0"
                                   ? ColorsRes.grey
-                                  : ColorsRes.appColor,
+                                  : Theme.of(context).primaryColor,
                               isboarder: true,
                               borderwidth: 1,
                             ),
@@ -180,7 +180,7 @@ class _PromoCodeListScreenState extends State<PromoCodeListScreen> {
                                     ?.copyWith(
                                       color: promoCode.isApplicable == "0"
                                           ? ColorsRes.grey
-                                          : ColorsRes.appColor,
+                                          : Theme.of(context).primaryColor,
                                     ),
                               ),
                             ),
@@ -193,7 +193,7 @@ class _PromoCodeListScreenState extends State<PromoCodeListScreen> {
                                   .labelSmall
                                   ?.copyWith(
                                     fontSize: 13,
-                                    color: ColorsRes.appColor,
+                                    color: Theme.of(context).primaryColor,
                                   ),
                             ),
                           ),

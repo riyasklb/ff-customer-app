@@ -157,7 +157,7 @@ class _NotificationsAndMailSettingsScreenScreenState
                         notificationsSettingsProvider.changeMailSetting(
                             index: index, status: value == true ? 1 : 0);
                       },
-                      activeColor: ColorsRes.appColor,
+                      activeColor: Theme.of(context).primaryColor,
                       inactiveTrackColor: ColorsRes.subTitleMainTextColor,
                     ),
                   ],
@@ -175,7 +175,7 @@ class _NotificationsAndMailSettingsScreenScreenState
                         notificationsSettingsProvider.changeMobileSetting(
                             index: index, status: value == true ? 1 : 0);
                       },
-                      activeColor: ColorsRes.appColor,
+                      activeColor: Theme.of(context).primaryColor,
                       inactiveTrackColor: ColorsRes.subTitleMainTextColor,
                     ),
                   ],

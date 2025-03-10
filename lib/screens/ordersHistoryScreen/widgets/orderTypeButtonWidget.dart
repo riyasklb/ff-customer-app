@@ -17,7 +17,7 @@ class OrderTypeButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: isActive == false
             ? Theme.of(context).cardColor
-            : ColorsRes.appColor,
+            : Theme.of(context).primaryColor,
       ),
       child: child,
     );

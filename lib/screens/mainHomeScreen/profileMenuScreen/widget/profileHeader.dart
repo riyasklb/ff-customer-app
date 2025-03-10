@@ -5,6 +5,9 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('profile picture is ${Constant.session.getData(
+      SessionManager.keyUserImage,
+    )}');
     return Container(
       color: Theme.of(context).cardColor,
       padding: const EdgeInsets.all(5),
@@ -89,7 +92,7 @@ class ProfileHeader extends StatelessWidget {
                               child: CustomTextLabel(
                                 jsonKey: "edit",
                                 style: TextStyle(
-                                  color: ColorsRes.appColor,
+                                  color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

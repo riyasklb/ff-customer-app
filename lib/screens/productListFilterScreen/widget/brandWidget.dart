@@ -47,7 +47,7 @@ getBrandWidget(List<Brands> brands, BuildContext context) {
                                 borderRadius: Constant.borderRadius10),
                             child: Icon(
                               Icons.check_rounded,
-                              color: ColorsRes.appColor,
+                              color: Theme.of(context).primaryColor,
                               size: 60,
                             )),
                       ),

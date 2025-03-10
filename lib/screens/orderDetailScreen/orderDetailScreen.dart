@@ -122,7 +122,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                       text: "#${order.id}",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                   ),
@@ -260,7 +260,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     height: 24,
                                     width: 24,
                                     child: CircularProgressIndicator(
-                                      color: ColorsRes.appColor,
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                   ),
                                 if (orderInvoiceProvider.orderInvoiceState !=
@@ -711,7 +711,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     text: order.finalTotal?.currency,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      color: ColorsRes.appColor,
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                   ),
                                 ],

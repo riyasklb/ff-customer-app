@@ -57,16 +57,16 @@ class StripeService {
           appearance: PaymentSheetAppearance(
             colors: PaymentSheetAppearanceColors(
               componentBackground: Theme.of(context).cardColor,
-              icon: ColorsRes.appColor,
+              icon: Theme.of(context).primaryColor,
               secondaryText: ColorsRes.mainTextColor,
               primaryText: ColorsRes.mainTextColor,
               background: Theme.of(context).scaffoldBackgroundColor,
-              primary: ColorsRes.appColor,
+              primary: Theme.of(context).primaryColor,
             ),
             primaryButton: PaymentSheetPrimaryButtonAppearance(
               colors: PaymentSheetPrimaryButtonTheme(
                 dark: PaymentSheetPrimaryButtonThemeColors(
-                  background: ColorsRes.appColor,
+                  background: Theme.of(context).primaryColor,
                 ),
               ),
             ),

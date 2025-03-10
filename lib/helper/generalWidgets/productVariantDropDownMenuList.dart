@@ -23,7 +23,7 @@ class _ProductVariantDropDownMenuListState
     extends State<ProductVariantDropDownMenuList> {
   int getAvailableVariantIndex(List<Variants> variantStock) {
     for (int i = 0; i < variantStock.length; i++) {
-      if (variantStock[i].stock != "0") {
+      if (variantStock[i].stock != "0" && variantStock[i].status != "0") {
         return i;
       }
     }
@@ -65,7 +65,7 @@ class _ProductVariantDropDownMenuListState
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 15,
-                              color: ColorsRes.appColor,
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.w800,
                             ),
                           ),

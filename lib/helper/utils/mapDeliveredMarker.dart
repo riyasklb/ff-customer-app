@@ -21,7 +21,7 @@ class MapDeliveredMarkerState extends State<MapDeliveredMarker> {
         children: <Widget>[
           Icon(
             Icons.location_on,
-            color: ColorsRes.appColor,
+            color: Theme.of(context).primaryColor,
             size: 65,
           )
         ],

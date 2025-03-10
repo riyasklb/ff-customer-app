@@ -34,8 +34,7 @@ class ColorsRes {
   );
 
   static Color appColorLight = const Color(0xff2E3593);
-  static Color appColorLightHalfTransparent =
-      const Color(0x909FE249).withOpacity(0.3);
+  static Color appColorLightHalfTransparent = const Color(0x262E3593);
   static Color appColorDark = const Color(0xFF4A52D0);
 
   static Color gradient1 = const Color(0xff3c4299);

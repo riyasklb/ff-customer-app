@@ -23,7 +23,7 @@ class _ProductVariantDropDownMenuGridState
     extends State<ProductVariantDropDownMenuGrid> {
   int getAvailableVariantIndex(List<Variants> variant) {
     for (int i = 0; i < variant.length; i++) {
-      if (variant[i].stock != "0") {
+      if (variant[i].stock != "0" && variant[i].status != "0") {
         return i;
       }
     }
@@ -66,7 +66,7 @@ class _ProductVariantDropDownMenuGridState
                             overflow: TextOverflow.clip,
                             style: TextStyle(
                               fontSize: 15,
-                              color: ColorsRes.appColor,
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.w800,
                             ),
                           ),

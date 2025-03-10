@@ -244,7 +244,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       loadingBuilder: (context) {
         return Center(
           child: CircularProgressIndicator(
-            color: ColorsRes.appColor,
+            color: Theme.of(context).primaryColor,
           ),
         );
       },

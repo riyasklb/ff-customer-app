@@ -27,7 +27,7 @@ Widget getPriceRangeWidget(
         child: RangeSlider(
           values: context.watch<ProductFilterProvider>().currentRangeValues,
           divisions: (maxPrice.toInt() - minPrice.toInt()),
-          activeColor: ColorsRes.appColor,
+          activeColor: Theme.of(context).primaryColor,
           inactiveColor: ColorsRes.grey,
           min: minPrice,
           max: maxPrice,

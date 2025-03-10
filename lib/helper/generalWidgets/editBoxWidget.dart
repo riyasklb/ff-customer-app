@@ -47,7 +47,7 @@ Widget editBoxWidget(
           Radius.circular(8),
         ),
         borderSide: BorderSide(
-          color: ColorsRes.appColor,
+          color: Theme.of(context).primaryColor,
           width: 1,
           style: BorderStyle.solid,
           strokeAlign: BorderSide.strokeAlignCenter,
@@ -97,6 +97,7 @@ Widget editBoxWidget(
           strokeAlign: BorderSide.strokeAlignCenter,
         ),
       ),
+      counterText: "",
       labelText: label,
       labelStyle: TextStyle(color: ColorsRes.subTitleMainTextColor),
       isDense: true,
@@ -115,7 +116,11 @@ Widget editBoxWidget(
     keyboardType: inputType,
     inputFormatters: inputFormatters ?? [],
     validator: (String? value) {
-      return validationFunction(value ?? "") == null ? null : errorLabel;
+      if (validationFunction(value ?? "") == null) {
+        return null;
+      } else {
+        return validationFunction(value);
+      }
     },
   );
 }

@@ -245,12 +245,16 @@ class _ProductCartButtonState
                     //   loginUserAccount(context, "cart");
                     // }
                   }
+                  showMessage(
+                      context,
+                      getTranslatedValue(context, "added_to_cart"),
+                      MessageType.success);
                 },
                 child: Container(
                   alignment: AlignmentDirectional.center,
                   padding: EdgeInsets.symmetric(horizontal: Constant.size10),
                   decoration: BoxDecoration(
-                    color: ColorsRes.appColorLightHalfTransparent,
+                    color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   height: 35,
@@ -267,7 +271,7 @@ class _ProductCartButtonState
                             width: 18,
                             height: 18,
                             child: CircularProgressIndicator(
-                              color: ColorsRes.appColor,
+                              color: ColorsRes.appColorWhite.withOpacity(0.8),
                             ),
                           ),
                         )
@@ -279,14 +283,15 @@ class _ProductCartButtonState
                             children: [
                               defaultImg(
                                 image: "product_cart_icon",
-                                iconColor: ColorsRes.appColor,
+                                iconColor:
+                                    ColorsRes.appColorWhite.withOpacity(0.8),
                               ),
                               getSizedBox(width: 5),
                               CustomTextLabel(
                                 jsonKey: "add_to_cart",
                                 style: TextStyle(
                                   color:
-                                      ColorsRes.mainTextColor.withOpacity(0.8),
+                                      ColorsRes.appColorWhite.withOpacity(0.8),
                                 ),
                               ),
                             ],
@@ -303,7 +308,7 @@ class _ProductCartButtonState
                     width: context.width * 0.25,
                     decoration: BoxDecoration(
                       gradient: DesignConfig.linearGradient(
-                          ColorsRes.appColor, ColorsRes.appColor),
+                          Theme.of(context).primaryColor, ColorsRes.appColor),
                       borderRadius: BorderRadiusDirectional.all(
                         Radius.circular(5),
                       ),
@@ -367,6 +372,17 @@ class _ProductCartButtonState
                                   //   loginUserAccount(context, "cart");
                                   // }
                                 }
+                                int.parse(cartListProvider
+                                            .getItemCartItemQuantity(
+                                                widget.productId,
+                                                widget.productVariantId)) >=
+                                        1
+                                    ? null
+                                    : showMessage(
+                                        context,
+                                        getTranslatedValue(
+                                            context, "removed_from_cart"),
+                                        MessageType.error);
                               },
                               otherWidgets: int.parse(cartListProvider
                                           .getItemCartItemQuantity(
@@ -379,7 +395,7 @@ class _ProductCartButtonState
                                       height: 20,
                                       padding:
                                           const EdgeInsetsDirectional.all(5),
-                                      iconColor: ColorsRes.appColor,
+                                      iconColor: Theme.of(context).primaryColor,
                                     )
                                   : defaultImg(
                                       image: "cart_remove",
@@ -387,7 +403,7 @@ class _ProductCartButtonState
                                       height: 20,
                                       padding:
                                           const EdgeInsetsDirectional.all(5),
-                                      iconColor: ColorsRes.appColor,
+                                      iconColor: Theme.of(context).primaryColor,
                                     ),
                             ),
                           ),
@@ -487,7 +503,7 @@ class _ProductCartButtonState
                                 width: 20,
                                 height: 20,
                                 padding: const EdgeInsetsDirectional.all(5),
-                                iconColor: ColorsRes.appColor,
+                                iconColor: Theme.of(context).primaryColor,
                               ),
                             ),
                           ),

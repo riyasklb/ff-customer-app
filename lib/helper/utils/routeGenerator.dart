@@ -294,6 +294,7 @@ class RouteGenerator {
             child: AddressDetailScreen(
               address: addressDetailArguments[0],
               addressProviderContext: addressDetailArguments[1] as BuildContext,
+              from: addressDetailArguments[2] as String,
             ),
           ),
         );

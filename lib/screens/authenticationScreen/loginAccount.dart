@@ -73,7 +73,7 @@ class _LoginAccountState extends State<LoginAccount> {
                   text: "Bite into Premium",
                   style: TextStyle(
                     fontSize: 25,
-                    color: ColorsRes.appColor,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.75,
                   ),
@@ -107,7 +107,7 @@ class _LoginAccountState extends State<LoginAccount> {
                 color: Colors.black.withOpacity(0.3),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: ColorsRes.appColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),
@@ -204,7 +204,7 @@ class _LoginAccountState extends State<LoginAccount> {
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
                       fontSize: 30,
-                      color: ColorsRes.appColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ],
@@ -328,7 +328,7 @@ class _LoginAccountState extends State<LoginAccount> {
                     TextSpan(
                         text: getTranslatedValue(context, "terms_of_service"),
                         style: TextStyle(
-                          color: ColorsRes.appColor,
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
                         recognizer: TapGestureRecognizer()
@@ -350,7 +350,7 @@ class _LoginAccountState extends State<LoginAccount> {
                     TextSpan(
                       text: getTranslatedValue(context, "privacy_policy"),
                       style: TextStyle(
-                        color: ColorsRes.appColor,
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w500,
                       ),
                       recognizer: TapGestureRecognizer()
@@ -395,6 +395,7 @@ class _LoginAccountState extends State<LoginAccount> {
           Icons.keyboard_arrow_down_rounded,
           color: ColorsRes.mainTextColor,
         ),
+
         dropdownIconPosition: IconPosition.trailing,
         flagsButtonMargin: EdgeInsets.only(left: 10),
         decoration: InputDecoration(
@@ -403,6 +404,7 @@ class _LoginAccountState extends State<LoginAccount> {
           hintStyle: TextStyle(color: Theme.of(context).hintColor),
           contentPadding: EdgeInsets.zero,
           iconColor: ColorsRes.subTitleMainTextColor,
+          filled: true,
           fillColor: Theme.of(context).cardColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

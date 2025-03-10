@@ -132,7 +132,7 @@ class _State extends State<CartListItemContainer> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: 17,
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),

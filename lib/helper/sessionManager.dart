@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/helper/utils/generalImports.dart';
 
@@ -146,9 +147,7 @@ class SessionManager extends ChangeNotifier {
 
     showDialog<String>(
       context: buildContext,
-      builder: (BuildContext context) => AlertDialog(
-        backgroundColor: Theme.of(buildContext).cardColor,
-        surfaceTintColor: Colors.transparent,
+      builder: (BuildContext context) => CupertinoAlertDialog(
         title: CustomTextLabel(
           jsonKey: "logout_title",
           softWrap: true,
@@ -232,9 +231,9 @@ class SessionManager extends ChangeNotifier {
     }
     showDialog<String>(
       context: buildContext,
-      builder: (BuildContext context) => AlertDialog(
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: Theme.of(buildContext).cardColor,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        // surfaceTintColor: Colors.transparent,
+        // backgroundColor: Theme.of(buildContext).cardColor,
         title: CustomTextLabel(
           jsonKey: "delete_user_title",
           softWrap: true,

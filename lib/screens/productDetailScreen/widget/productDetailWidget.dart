@@ -203,7 +203,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                             //   overflow: TextOverflow.ellipsis,
                             //   style: TextStyle(
                             //       fontSize: 18,
-                            //       color: ColorsRes.appColor,
+                            //       color: Theme.of(context).primaryColor,
                             //       fontWeight: FontWeight.w800),
                             // ),
                             // getSizedBox(height: 5),
@@ -230,7 +230,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                             //   overflow: TextOverflow.ellipsis,
                             //   style: TextStyle(
                             //       fontSize: 16,
-                            //       color: ColorsRes.appColor,
+                            //       color: Theme.of(context).primaryColor,
                             //       fontWeight: FontWeight.w800),
                             // ),
 
@@ -248,7 +248,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                                       : "${widget.product.variants[selectedVariantItemProvider.getSelectedIndex()].price.currency}",
                                   style: TextStyle(
                                       fontSize: 18,
-                                      color: ColorsRes.appColor,
+                                      color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.w800),
                                 ),
                                 TextSpan(
@@ -276,7 +276,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                                         : "${widget.product.variants[selectedVariantItemProvider.getSelectedIndex()].PriceGST.currency}",
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.w800),
                                   ),
                                   TextSpan(
@@ -468,7 +468,7 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget> {
                     loadingBuilder: (context) {
                       return Center(
                         child: CircularProgressIndicator(
-                          color: ColorsRes.appColor,
+                          color: Theme.of(context).primaryColor,
                         ),
                       );
                     },
@@ -665,7 +665,7 @@ Widget getSpecificationItem({
         Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: CustomTextLabel(
                 jsonKey: titleJson,
                 softWrap: true,
@@ -684,7 +684,7 @@ Widget getSpecificationItem({
             ),
             getSizedBox(width: 10),
             Expanded(
-              flex: 7,
+              flex: 6,
               child: GestureDetector(
                 onTap: voidCallback,
                 child: CustomTextLabel(

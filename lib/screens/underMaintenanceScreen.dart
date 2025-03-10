@@ -33,7 +33,7 @@ class UnderMaintenanceScreen extends StatelessWidget {
                   child: CustomTextLabel(
                     jsonKey: "app_under_maintenance",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: ColorsRes.appColor,
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
                     softWrap: true,

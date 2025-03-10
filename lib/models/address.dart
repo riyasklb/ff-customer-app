@@ -36,6 +36,8 @@ class UserAddressData {
   String? name;
   String? mobile;
   String? alternateMobile;
+  String? countryCode;
+  String? alternateCountryCode;
   String? address;
   String? landmark;
   String? area;
@@ -54,6 +56,8 @@ class UserAddressData {
       this.name,
       this.mobile,
       this.alternateMobile,
+      this.countryCode,
+      this.alternateCountryCode,
       this.address,
       this.landmark,
       this.area,
@@ -72,6 +76,8 @@ class UserAddressData {
     name = json['name'].toString();
     mobile = json['mobile'].toString();
     alternateMobile = json['alternate_mobile'].toString();
+    countryCode = json['country_code'].toString();
+    alternateCountryCode = json['alternate_country_code'].toString();
     address = json['address'].toString();
     landmark = json['landmark'].toString();
     area = json['area'].toString();
@@ -92,6 +98,8 @@ class UserAddressData {
     data['name'] = name;
     data['mobile'] = mobile;
     data['alternate_mobile'] = alternateMobile;
+    data['country_code'] = countryCode;
+    data['alternate_country_code'] = alternateCountryCode;
     data['address'] = address;
     data['landmark'] = landmark;
     data['area'] = area;

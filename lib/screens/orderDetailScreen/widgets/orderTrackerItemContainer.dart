@@ -85,7 +85,7 @@ import 'package:project/helper/utils/generalImports.dart';
 //                     ? (listOfStatus.length > index + 1)
 //                         ? ColorsRes.appColor
 //                         : ColorsRes.lightGrey
-//                     : ColorsRes.appColor,
+//                     : Theme.of(context).primaryColor,
 //               )
 //           ],
 //         ),
@@ -398,9 +398,7 @@ class OrderTrackerItemContainer extends StatelessWidget {
                   text: isCompleted
                       ? i == 1
                           ? "Your order is pending payment on ${statusDate!.formatDate()}"
-                          : 
-                          
-                          "Your order has been ${currentStatus.capitalize()} on ${statusDate!.formatDate()}"
+                          : "Your order has been ${currentStatus.capitalize()} on ${statusDate!.formatDate()}"
                       : "Your order not yet ${currentStatus.capitalize()}",
                   softWrap: true,
                   textAlign: TextAlign.start,

@@ -305,7 +305,7 @@ class _OrderTrackerScreenState extends State<OrderTrackerScreen> {
                                   alignment: Alignment.center,
                                   child: Icon(
                                     Icons.location_on_outlined,
-                                    color: ColorsRes.appColor,
+                                    color: Theme.of(context).primaryColor,
                                   ),
                                 ),
                                 getSizedBox(width: 10),
@@ -407,7 +407,8 @@ class _OrderTrackerScreenState extends State<OrderTrackerScreen> {
                                             alignment: Alignment.center,
                                             child: Icon(
                                               Icons.call,
-                                              color: ColorsRes.appColor,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
                                             ),
                                           ),
                                         ],
@@ -448,7 +449,7 @@ class _OrderTrackerScreenState extends State<OrderTrackerScreen> {
       polylines: {
         Polyline(
           polylineId: PolylineId("1"),
-          color: ColorsRes.appColor,
+          color: Theme.of(context).primaryColor,
           points: polylineCoordinates,
           visible: true,
           zIndex: -1,

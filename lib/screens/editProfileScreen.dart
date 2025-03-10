@@ -123,6 +123,7 @@ class _EditProfileState extends State<EditProfile> {
                   try {
                     _formKey.currentState!.save();
                     if (_formKey.currentState!.validate()) {
+                      print('validated');
                       widget.loginParams?[ApiAndParams.name] =
                           edtUsername.text.trim();
                       widget.loginParams?[ApiAndParams.email] =
@@ -340,6 +341,19 @@ class _EditProfileState extends State<EditProfile> {
                           },
                         );
                       }
+                    } else {
+                      print('not validated');
+                      if (edtEmail.text.trim().isEmpty &&
+                          edtUsername.text.trim().isEmpty) {
+                        showMessage(
+                          context,
+                          getTranslatedValue(
+                            context,
+                            "enter_username_email",
+                          ),
+                          MessageType.error,
+                        );
+                      }
                     }
                   } catch (e) {
                     userProfileProvider.changeState();
@@ -387,7 +401,7 @@ class _EditProfileState extends State<EditProfile> {
               context,
               "enter_valid_email",
             ),
-            TextInputType.text,
+            TextInputType.emailAddress,
             isEditable: (tempEmail.isEmpty || isEditable),
           ),
           SizedBox(height: Constant.size15),
@@ -518,6 +532,7 @@ class _EditProfileState extends State<EditProfile> {
           hintStyle: TextStyle(color: Theme.of(context).hintColor),
           contentPadding: EdgeInsets.zero,
           iconColor: ColorsRes.subTitleMainTextColor,
+          filled: true,
           fillColor: Theme.of(context).cardColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
@@ -673,7 +688,8 @@ class _EditProfileState extends State<EditProfile> {
                                         Icons.image_rounded,
                                         size: 50,
                                       ),
-                                      splashColor: ColorsRes.appColor,
+                                      splashColor:
+                                          Theme.of(context).primaryColor,
                                       splashRadius: 50,
                                       color: ColorsRes.subTitleMainTextColor,
                                       tooltip: getTranslatedValue(
@@ -762,7 +778,8 @@ class _EditProfileState extends State<EditProfile> {
                                         color: ColorsRes.subTitleMainTextColor,
                                         size: 50,
                                       ),
-                                      splashColor: ColorsRes.appColor,
+                                      splashColor:
+                                          Theme.of(context).primaryColor,
                                       splashRadius: 50,
                                       color: ColorsRes.subTitleMainTextColor,
                                       tooltip: getTranslatedValue(
@@ -819,7 +836,7 @@ class _EditProfileState extends State<EditProfile> {
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: true,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          activeControlsWidgetColor: ColorsRes.appColor,
+          activeControlsWidgetColor: Theme.of(context).primaryColor,
         ),
         IOSUiSettings(
           minimumAspectRatio: 1.0,

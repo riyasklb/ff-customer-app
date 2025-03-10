@@ -333,7 +333,7 @@
 //                                     .read<CheckoutProvider>()
 //                                     .selectedTime,
 //                                 groupValue: index,
-//                                 activeColor: ColorsRes.appColor,
+//                                 activeColor: Theme.of(context).primaryColor,
 //                                 onChanged: (value) {
 //                                   context
 //                                       .read<CheckoutProvider>()
@@ -725,7 +725,7 @@ class _GetTimeSlotsState extends State<GetTimeSlots> {
                     inactiveColor: ColorsRes.mainTextColor,
                     value: context.read<CheckoutProvider>().selectedTime,
                     groupValue: index,
-                    activeColor: ColorsRes.appColor,
+                    activeColor: Theme.of(context).primaryColor,
                     onChanged: (value) {
                       context.read<CheckoutProvider>().setSelectedTime(index);
                     },
