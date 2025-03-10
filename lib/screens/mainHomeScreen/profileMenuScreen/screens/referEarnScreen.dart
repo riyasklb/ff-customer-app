@@ -141,7 +141,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                     decoration: DesignConfig.boxDecoration(
                         ColorsRes.appColor.withOpacity(0.2), 10),
                     child: DashedRect(
-                      color: ColorsRes.appColor,
+                      color: Theme.of(context).primaryColor,
                       strokeWidth: 1.0,
                       gap: 10,
                     ),
@@ -272,7 +272,8 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
       dense: true,
       horizontalTitleGap: 10,
       minLeadingWidth: Constant.size10,
-      leading: Icon(Icons.brightness_1, color: ColorsRes.appColor, size: 15),
+      leading: Icon(Icons.brightness_1,
+          color: Theme.of(context).primaryColor, size: 15),
       title: CustomTextLabel(
         text: text,
         softWrap: true,
@@ -283,8 +284,8 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
   howWorksWidget() {
     return Card(
       elevation: 0,
-      color: ColorsRes.appColor,
-      surfaceTintColor: ColorsRes.appColor,
+      color: Theme.of(context).primaryColor,
+      surfaceTintColor: Theme.of(context).primaryColor,
       shape: DesignConfig.setRoundedBorder(8),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(

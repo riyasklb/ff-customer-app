@@ -79,9 +79,10 @@ class _ProductListScreenState extends State<WishListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          floatingActionButton: (context.watch<CartListProvider>().cartList.length > 0)
-          ? CartFloating()
-          : null,
+      floatingActionButton:
+          (context.watch<CartListProvider>().cartList.length > 0)
+              ? CartFloating()
+              : null,
       appBar: getAppBar(
         context: context,
         centerTitle: true,
@@ -100,9 +101,6 @@ class _ProductListScreenState extends State<WishListScreen> {
         children: [
           Column(
             children: [
-              getSearchWidget(
-                context: context,
-              ),
               getSizedBox(
                 height: Constant.size10,
               ),

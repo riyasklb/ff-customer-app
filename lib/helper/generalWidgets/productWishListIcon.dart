@@ -66,7 +66,7 @@ class ProductWishListIcon extends StatelessWidget {
                           (int.parse(product?.id ?? "0")))
                   ? getLoadingIndicator()
                   : getDarkLightIcon(
-                      iconColor: ColorsRes.appColor,
+                      iconColor: Theme.of(context).primaryColor,
                       isActive: Constant.session.isUserLoggedIn()
                           ? providerContext
                               .read<ProductAddOrRemoveFavoriteProvider>()

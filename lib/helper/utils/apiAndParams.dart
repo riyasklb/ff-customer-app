@@ -163,6 +163,7 @@ class ApiAndParams {
   static String email = "email";
   static String profile = "profile";
   static String countryCode = "country_code";
+  static String altCountryCode = "alternate_country_code";
   static String balance = "balance";
   static String userBalance = "user_balance";
   static String referralCode = "referral_code";

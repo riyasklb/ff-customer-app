@@ -54,6 +54,8 @@ class _State extends State<ProductGridItemContainer> {
                           child: Consumer<SelectedVariantItemProvider>(
                             builder:
                                 (context, selectedVariantItemProvider, child) {
+                              print(
+                                  "product imageUrl : ${product.imageUrl.toString()}");
                               return Stack(
                                 children: [
                                   Container(

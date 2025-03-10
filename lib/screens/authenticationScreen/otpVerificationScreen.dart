@@ -87,7 +87,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
       decoration: defaultPinTheme.decoration?.copyWith(
         color: Theme.of(context).cardColor,
         border: Border.all(
-          color: ColorsRes.appColor,
+          color: Theme.of(context).primaryColor,
         ),
       ),
     );
@@ -109,7 +109,7 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                   text: "Bite into Premium",
                   style: TextStyle(
                     fontSize: 25,
-                    color: ColorsRes.appColor,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 0.75,
                   ),
@@ -304,7 +304,8 @@ class _LoginAccountState extends State<OtpVerificationScreen> {
                         "resend_otp",
                       ),
                 style: TextStyle(
-                    color: ColorsRes.appColor, fontWeight: FontWeight.bold)),
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold)),
           ],
         ),
       ),

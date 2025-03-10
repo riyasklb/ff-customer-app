@@ -77,7 +77,7 @@ class _BottomSheetLanguageListContainerState
                           ),
                           CustomRadio(
                             inactiveColor: ColorsRes.mainTextColor,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             value: languageProvider.selectedLanguage,
                             groupValue: languageProvider
                                 .languageList!.data![index].id

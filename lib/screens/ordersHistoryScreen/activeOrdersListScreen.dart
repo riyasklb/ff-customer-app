@@ -96,8 +96,8 @@ class _ActiveOrderListScreenState extends State<ActiveOrderListScreen>
               width: context.width,
               child: DefaultBlankItemMessageScreen(
                 image: "no_order_icon",
-                title: "empty_previous_orders_message",
-                description: "empty_previous_orders_description",
+                title: "empty_active_orders_message",
+                description: "empty_active_orders_description",
                 buttonTitle: "go_back",
                 callback: () {
                   Navigator.pop(context);

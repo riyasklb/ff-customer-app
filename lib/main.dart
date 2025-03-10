@@ -41,6 +41,9 @@ Future<void> main() async {
         ChangeNotifierProvider<RatingListProvider>(
           create: (context) => RatingListProvider(),
         ),
+        ChangeNotifierProvider<ProductSearchProvider>(
+          create: (context) => ProductSearchProvider(),
+        ),
         ChangeNotifierProvider<HomeScreenProvider>(
           create: (context) => HomeScreenProvider(),
         ),
@@ -200,6 +203,10 @@ class MyAppState extends State<MyApp> {
                   debugShowCheckedModeBanner: false,
                   title: "Frosty Foods",
                   theme: ColorsRes.setAppTheme().copyWith(
+                    textTheme:
+                        GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+                  ),
+                  darkTheme: ColorsRes.darkTheme.copyWith(
                     textTheme:
                         GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
                   ),

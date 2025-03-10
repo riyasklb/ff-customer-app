@@ -61,8 +61,7 @@ class _AddressListScreenState extends State<AddressListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'id in is ----------------- ${widget.checkoutProviderContext.watch<CheckoutProvider>().selectedAddress!.id}');
+    print('from in this ----------------- ${widget.from}');
     return Scaffold(
       appBar: getAppBar(
         context: context,
@@ -177,7 +176,8 @@ class _AddressListScreenState extends State<AddressListScreen> {
                                                                   addressDetailScreen,
                                                                   arguments: [
                                                                     address,
-                                                                    context
+                                                                    context,
+                                                                    widget.from
                                                                   ]);
                                                             },
                                                             child: Container(
@@ -310,7 +310,8 @@ class _AddressListScreenState extends State<AddressListScreen> {
                           10,
                           callback: () {
                             Navigator.pushNamed(context, addressDetailScreen,
-                                arguments: [null, context]).then((value) {
+                                    arguments: [null, context, widget.from])
+                                .then((value) {
                               value == null
                                   ? null
                                   : Navigator.pop(context, value);

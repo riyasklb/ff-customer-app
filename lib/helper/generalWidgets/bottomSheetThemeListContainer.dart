@@ -78,7 +78,7 @@ class _BottomSheetThemeListContainerState
                         ),
                         CustomRadio(
                           inactiveColor: ColorsRes.mainTextColor,
-                          activeColor: ColorsRes.appColor,
+                          activeColor: Theme.of(context).primaryColor,
                           value: index == 0
                               ? ThemeState.systemDefault
                               : index == 1

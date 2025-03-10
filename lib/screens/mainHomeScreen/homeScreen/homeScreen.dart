@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     bool isLoad = true;
     print(
         'hello home screen ---------------> delivery available -------->  ${context.read<CityByLatLongProvider>().isDeliverable}');
@@ -138,10 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context: context,
                                           builder: (BuildContext context) =>
                                               CupertinoAlertDialog(
-                                                title: Text('Oops!'),
+                                                title: CustomTextLabel(
+                                                  jsonKey: "exciting_news",
+                                                ),
                                                 content: CustomTextLabel(
                                                   jsonKey:
-                                                      "does_not_delivery_long_message",
+                                                      "does_not_delivery_long_message_2",
                                                 ),
                                                 actions: [
                                                   TextButton(
@@ -221,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: ColorsRes.appColor,
+                            color: Theme.of(context).primaryColor,
                           ),
                           padding:
                               EdgeInsets.symmetric(vertical: Constant.size10),
@@ -273,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               text: "Search Your Location",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: ColorsRes.appColor,
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 16,
                               ),
                             ),
@@ -368,9 +369,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) => CupertinoAlertDialog(
-                              title: Text('Oops!'),
-                              content: Text(
-                                  'We are currently unavailable in your location. Please select a location near our store! Our stores are available in Kakkanad and Ayyappankavu!'),
+                              title: CustomTextLabel(
+                                jsonKey: "exciting_news",
+                              ),
+                              content: CustomTextLabel(
+                                jsonKey: "does_not_delivery_long_message_2",
+                              ),
                               actions: [
                                 TextButton(
                                   onPressed: () {

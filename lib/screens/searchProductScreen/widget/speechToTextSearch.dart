@@ -146,7 +146,7 @@ class _SpeechToTextSearchState extends State<SpeechToTextSearch> {
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: ColorsRes.appColor,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: defaultImg(

@@ -67,7 +67,7 @@ class CartOverlay extends StatelessWidget {
                 padding: EdgeInsetsDirectional.only(
                     start: 10, end: 10, top: 5, bottom: 5),
                 decoration: BoxDecoration(
-                  color: ColorsRes.appColor,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: CustomTextLabel(
@@ -109,8 +109,7 @@ class CartOverlay extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          cartListProvider
-                              .clearCart(context: context);
+                          cartListProvider.clearCart(context: context);
                           Navigator.pop(context);
                         },
                         child: CustomTextLabel(

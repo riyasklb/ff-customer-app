@@ -89,7 +89,7 @@ class _WalletHistoryListScreenState extends State<WalletHistoryListScreen> {
                         CustomTextLabel(
                           jsonKey: "wallet_balance",
                           style: TextStyle(
-                            color: ColorsRes.appColor,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                           ),
@@ -102,7 +102,7 @@ class _WalletHistoryListScreenState extends State<WalletHistoryListScreen> {
                                       .currency,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: ColorsRes.appColor,
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                               ),

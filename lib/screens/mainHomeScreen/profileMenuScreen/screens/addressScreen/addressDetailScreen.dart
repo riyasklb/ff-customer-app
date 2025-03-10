@@ -4,11 +4,13 @@ import 'package:project/helper/utils/generalImports.dart';
 class AddressDetailScreen extends StatefulWidget {
   final UserAddressData? address;
   final BuildContext addressProviderContext;
+  final String? from;
 
   const AddressDetailScreen({
     Key? key,
     this.address,
     required this.addressProviderContext,
+    this.from,
   }) : super(key: key);
 
   @override
@@ -29,13 +31,15 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
   final TextEditingController edtZipcode = TextEditingController();
   final TextEditingController edtCountry = TextEditingController();
   final TextEditingController edtState = TextEditingController();
+  String? countryCode;
+  String? alternateCountryCode;
   bool isLoading = false;
   bool isDefaultAddress = false;
   String longitude = "";
   String latitude = "";
   AddressType selectedAddressType = AddressType.home;
   String? numberMobile;
-  String? numberAltMobile;
+  String? numberAlternateMobile;
 
   //Address types
   static Map addressTypes = {};
@@ -43,57 +47,63 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      Duration.zero,
-      () {
-        addressTypes = {
-          "home": getTranslatedValue(
-            context,
-            "address_type_home",
-          ),
-          "office": getTranslatedValue(
-            context,
-            "address_type_office",
-          ),
-          "other": getTranslatedValue(
-            context,
-            "address_type_other",
-          ),
-        };
+    // Future.delayed(
+    //   Duration.zero,
+    //   () {
+    addressTypes = {
+      "home": getTranslatedValue(
+        context,
+        "address_type_home",
+      ),
+      "office": getTranslatedValue(
+        context,
+        "address_type_office",
+      ),
+      "other": getTranslatedValue(
+        context,
+        "address_type_other",
+      ),
+    };
 
-        edtName.text = widget.address?.name ?? "";
-        edtAltMobile.text = widget.address?.alternateMobile == null ||
-                widget.address?.alternateMobile == "null"
-            ? ""
-            : widget.address!.alternateMobile.toString();
-        edtMobile.text = widget.address?.mobile ?? "";
-        edtAddress.text = widget.address?.address ?? "";
-        edtLandmark.text = widget.address?.landmark ?? "";
-        edtCity.text = widget.address?.city ?? "";
-        edtArea.text = widget.address?.area ?? "";
-        edtZipcode.text = widget.address?.pincode ?? "";
-        edtCountry.text = widget.address?.country ?? "";
-        edtState.text = widget.address?.state ?? "";
-        isDefaultAddress = widget.address?.isDefault == "1";
-        if (widget.address?.type?.toLowerCase() == "home") {
-          selectedAddressType = AddressType.home;
-        } else if (widget.address?.type?.toLowerCase() == "office") {
-          selectedAddressType = AddressType.office;
-        } else if (widget.address?.type?.toLowerCase() == "other") {
-          selectedAddressType = AddressType.other;
-        } else {
-          selectedAddressType = AddressType.home;
-        }
-        longitude = widget.address?.longitude ?? "";
-        latitude = widget.address?.latitude ?? "";
+    edtName.text = widget.address?.name ?? "";
+    edtAltMobile.text = widget.address?.alternateMobile == null ||
+            widget.address?.alternateMobile == "null"
+        ? ""
+        : widget.address!.alternateMobile.toString();
+    edtMobile.text = widget.address?.mobile ?? "";
+    edtAddress.text = widget.address?.address ?? "";
+    edtLandmark.text = widget.address?.landmark ?? "";
+    edtCity.text = widget.address?.city ?? "";
+    edtArea.text = widget.address?.area ?? "";
+    edtZipcode.text = widget.address?.pincode ?? "";
+    edtCountry.text = widget.address?.country ?? "";
+    edtState.text = widget.address?.state ?? "";
+    isDefaultAddress = widget.address?.isDefault == "1";
+    countryCode = widget.address?.countryCode;
+    print('country code sjaksskj is ${countryCode}');
+    alternateCountryCode = widget.address?.alternateCountryCode;
+    numberMobile = widget.address?.mobile;
+    numberAlternateMobile = widget.address?.alternateMobile;
+    if (widget.address?.type?.toLowerCase() == "home") {
+      selectedAddressType = AddressType.home;
+    } else if (widget.address?.type?.toLowerCase() == "office") {
+      selectedAddressType = AddressType.office;
+    } else if (widget.address?.type?.toLowerCase() == "other") {
+      selectedAddressType = AddressType.other;
+    } else {
+      selectedAddressType = AddressType.home;
+    }
+    longitude = widget.address?.longitude ?? "";
+    latitude = widget.address?.latitude ?? "";
 
-        setState(() {});
-      },
-    );
+    setState(() {});
+    //   },
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
+    print('country code pppppp is ${countryCode}');
     return Scaffold(
         appBar: getAppBar(
           context: context,
@@ -171,24 +181,49 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             ),
             getSizedBox(height: Constant.size15),
             editPhoneBoxBoxWidget(
+              context,
+              edtMobile,
+              phoneNumberValidation,
+              getTranslatedValue(
                 context,
-                edtMobile,
-                // phoneValidation,
-                getTranslatedValue(
-                  context,
-                  "mobile_number",
-                ),
-                number: numberMobile),
+                "mobile_number",
+              ),
+              countryCode: countryCode,
+              onCountryCodeChanged: (newCode) {
+                // Update state when changed
+                setState(() {
+                  countryCode = newCode;
+                });
+              },
+              onNumberChanged: (newNumber) {
+                // Update state when changed
+                setState(() {
+                  numberMobile = newNumber;
+                });
+              },
+            ),
             getSizedBox(height: Constant.size15),
             editPhoneBoxBoxWidget(
               context,
               edtAltMobile,
-              // optionalPhoneValidation,
+              optionalPhoneValidation,
               getTranslatedValue(
                 context,
                 "alternate_mobile_number",
               ),
-              number: numberAltMobile,
+              countryCode: alternateCountryCode,
+              onCountryCodeChanged: (newCode) {
+                // Update state when changed
+                setState(() {
+                  alternateCountryCode = newCode;
+                });
+              },
+              onNumberChanged: (newNumber) {
+                setState(() {
+                  // Update state when changed
+                  numberAlternateMobile = newNumber;
+                });
+              },
             ),
           ],
         ),
@@ -326,7 +361,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtLandmark,
-              emptyValidation,
+              validateLandmark,
               getTranslatedValue(
                 context,
                 "landmark",
@@ -342,7 +377,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtCity,
-              emptyValidation,
+              validateCity,
               getTranslatedValue(
                 context,
                 "city",
@@ -358,7 +393,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtArea,
-              emptyValidation,
+              validateArea,
               getTranslatedValue(
                 context,
                 "area",
@@ -374,7 +409,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtZipcode,
-              emptyValidation,
+              validatePincode,
               getTranslatedValue(
                 context,
                 "pin_code",
@@ -390,7 +425,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtState,
-              validateName,
+              validateState,
               getTranslatedValue(
                 context,
                 "state",
@@ -407,7 +442,7 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
             editBoxWidget(
               context,
               edtCountry,
-              validateName,
+              validateCountry,
               getTranslatedValue(
                 context,
                 "country",
@@ -589,6 +624,10 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                       "add_new_address",
                     ),
               callback: () async {
+                print('country code is ${countryCode}');
+                print('alternate country code is ${alternateCountryCode}');
+                print('number mobile is ${numberMobile}');
+                print('number alternate mobile is ${numberAlternateMobile}');
                 formKey.currentState!.save();
                 if (formKey.currentState!.validate()) {
                   if (longitude.isEmpty && latitude.isEmpty) {
@@ -603,7 +642,19 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                       ),
                       MessageType.warning,
                     );
-                  } else if (edtMobile.text == edtAltMobile.text) {
+                  } else if (edtMobile.text.isEmpty) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    showMessage(
+                      context,
+                      getTranslatedValue(
+                        context,
+                        "mobile_number_cannot_be_empty",
+                      ),
+                      MessageType.warning,
+                    );
+                  } else if (numberMobile == numberAlternateMobile) {
                     setState(() {
                       isLoading = false;
                     });
@@ -616,13 +667,17 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                       MessageType.warning,
                     );
                   } else {
+                    print('country code is ${countryCode}');
+                    print('alternate country code is ${alternateCountryCode}');
                     Map<String, String> params = {};
 
                     String id = widget.address?.id.toString() ?? "";
                     if (id.isNotEmpty) {
                       params[ApiAndParams.id] = id;
                     }
-
+                    params[ApiAndParams.countryCode] = countryCode ?? "IN";
+                    params[ApiAndParams.altCountryCode] =
+                        alternateCountryCode ?? "IN";
                     params[ApiAndParams.name] = edtName.text.trim().toString();
                     params[ApiAndParams.mobile] =
                         edtMobile.text.trim().toString();
@@ -668,11 +723,19 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                                       .isEmpty &&
                                   addresses.addresses.isNotEmpty) {
                                 print('New Address');
-                                addresses.setSelectedAddress(int.parse(
-                                    addresses.addresses.last.id.toString()));
-                                Navigator.pop(
-                                    context, addresses.addresses.last);
+                                if (widget.from == "checkout") {
+                                  addresses.setSelectedAddress(int.parse(
+                                      addresses.addresses.last.id.toString()));
+
+                                  print('kkkkkk here');
+                                  Navigator.pop(
+                                      context, addresses.addresses.last);
+                                } else {
+                                  print('jjjjjj here');
+                                  Navigator.pop(context);
+                                }
                               } else {
+                                print('hai its here');
                                 Navigator.pop(context);
                               }
                             });
@@ -681,6 +744,9 @@ class _AddressDetailScreenState extends State<AddressDetailScreen> {
                       isLoading = true;
                     });
                   }
+                } else {
+                  showMessage(context, "Please fill in all required fields!",
+                      MessageType.error);
                 }
               },
             ),

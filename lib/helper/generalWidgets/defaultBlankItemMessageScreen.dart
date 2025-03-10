@@ -52,7 +52,7 @@ class DefaultBlankItemMessageScreen extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall!.merge(
                   TextStyle(
-                    color: ColorsRes.appColor,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.5,
                   ),
@@ -78,7 +78,8 @@ class DefaultBlankItemMessageScreen extends StatelessWidget {
                 callback!();
               },
               child: Container(
-                decoration: DesignConfig.boxDecoration(ColorsRes.appColor, 10),
+                decoration: DesignConfig.boxDecoration(
+                    Theme.of(context).primaryColor, 10),
                 padding: const EdgeInsets.all(10),
                 child: CustomTextLabel(
                   jsonKey: buttonTitle,

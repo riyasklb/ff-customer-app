@@ -90,7 +90,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             value: "COD",
                             groupValue:
                                 paymentMethodsProvider.selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!context
                                   .read<CheckoutProvider>()
@@ -167,7 +167,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -243,7 +243,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -319,7 +319,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -395,7 +395,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -471,7 +471,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -547,7 +547,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -626,7 +626,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -702,7 +702,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context
@@ -778,7 +778,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                             groupValue: context
                                 .read<PaymentMethodsProvider>()
                                 .selectedPaymentMethod,
-                            activeColor: ColorsRes.appColor,
+                            activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
                               if (!isPaymentUnderProcessing) {
                                 context

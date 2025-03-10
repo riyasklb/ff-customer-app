@@ -201,7 +201,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             children: [
                               defaultImg(
                                 image: "wallet",
-                                iconColor: ColorsRes.appColor,
+                                iconColor: Theme.of(context).primaryColor,
                               ),
                               getSizedBox(width: 10),
                               Expanded(
@@ -217,7 +217,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               .currency,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -371,7 +371,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: ColorsRes.appColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ),
                         ],
@@ -436,7 +436,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       decoration: DesignConfig.boxDecoration(
                           ColorsRes.appColor.withOpacity(0.2), 10),
                       child: DashedRect(
-                        color: ColorsRes.appColor,
+                        color: Theme.of(context).primaryColor,
                         strokeWidth: 1.0,
                         gap: 10,
                       ),
@@ -448,7 +448,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             height: 30,
                             width: 30,
                             child: CircleAvatar(
-                              backgroundColor: ColorsRes.appColor,
+                              backgroundColor: Theme.of(context).primaryColor,
                               radius: 100,
                               child: defaultImg(
                                 image: "discount_coupon_icon",

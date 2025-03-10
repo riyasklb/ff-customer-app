@@ -180,7 +180,7 @@ class OrderItemContainer extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: ColorsRes.appColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],
@@ -232,7 +232,6 @@ class OrderItemContainer extends StatelessWidget {
                             );
                           },
                         );
-
                       } else if (order.activeStatus.toString() == "5") {
                         Navigator.pushNamed(
                           context,
@@ -249,7 +248,8 @@ class OrderItemContainer extends StatelessWidget {
                       } else {
                         showMessage(
                             context,
-                            getTranslatedValue(context, "order_awaiting_payment_track_order_message"),
+                            getTranslatedValue(context,
+                                "order_awaiting_payment_track_order_message"),
                             MessageType.warning);
                       }
                     },

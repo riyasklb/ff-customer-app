@@ -132,7 +132,7 @@ class _State extends State<CartListItemContainer> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: 17,
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -185,6 +185,7 @@ class _State extends State<CartListItemContainer> {
                                                   isUnlimitedStock:
                                                       cart.isUnlimitedStock ==
                                                           "1",
+                                                  actionFor: "add",
                                                   maximumAllowedQuantity:
                                                       double.parse(cart
                                                           .totalAllowedQuantity),

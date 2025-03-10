@@ -179,7 +179,7 @@ class _FilterSubCategoryListState extends State<FilterSubCategoryList> {
                                       Icon(
                                         Icons.check_rounded,
                                         size: 19,
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     if (category.hasChild == true)
                                       Icon(

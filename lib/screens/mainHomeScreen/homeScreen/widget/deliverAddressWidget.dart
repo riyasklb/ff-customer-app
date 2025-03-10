@@ -27,7 +27,7 @@ class DeliveryAddressWidget extends StatelessWidget {
           ),
         ),
         title: CustomTextLabel(
-          jsonKey: "delivery_to",
+          jsonKey: "store_location",
           softWrap: true,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

@@ -129,8 +129,8 @@ class IntroSliderScreenState extends State<IntroSliderScreen> {
                       child: Container(
                         height: 45,
                         margin: EdgeInsetsDirectional.only(start: 10, end: 20),
-                        decoration:
-                            DesignConfig.boxDecoration(ColorsRes.appColor, 10),
+                        decoration: DesignConfig.boxDecoration(
+                            Theme.of(context).primaryColor, 10),
                         child: Row(
                           children: [
                             getSizedBox(width: 20),
@@ -197,8 +197,8 @@ class IntroSliderScreenState extends State<IntroSliderScreen> {
                       child: Container(
                         height: 45,
                         margin: EdgeInsetsDirectional.only(start: 10, end: 20),
-                        decoration:
-                            DesignConfig.boxDecoration(ColorsRes.appColor, 10),
+                        decoration: DesignConfig.boxDecoration(
+                            Theme.of(context).primaryColor, 10),
                         child: Row(
                           children: [
                             getSizedBox(width: 20),
@@ -232,8 +232,8 @@ class IntroSliderScreenState extends State<IntroSliderScreen> {
                 child: Container(
                   height: 45,
                   margin: EdgeInsetsDirectional.only(start: 10, end: 10),
-                  decoration:
-                      DesignConfig.boxDecoration(ColorsRes.appColor, 10),
+                  decoration: DesignConfig.boxDecoration(
+                      Theme.of(context).primaryColor, 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

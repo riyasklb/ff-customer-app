@@ -190,19 +190,57 @@ Future sendApiMultiPartRequest(
 }
 
 String? validateEmail(String value) {
-  RegExp regex = RegExp(
-      r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-  if (value.trim().isEmpty || !regex.hasMatch(value)) {
-    return "";
+  RegExp regex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
+  if (value.trim().isEmpty) {
+    return "Email cannot be empty";
+  } else if (!regex.hasMatch(value)) {
+    return "Enter a valid email address";
   } else {
     return null;
   }
 }
 
+// String? validateUsername(String value) {
+//   RegExp regex = RegExp(r'^[a-zA-Z0-9_.]{3,20}$');
+//   if (value.trim().isEmpty || !regex.hasMatch(value)) {
+//     return "";
+//   } else {
+//     return null;
+//   }
+// }
+
 String? validateUsername(String value) {
   RegExp regex = RegExp(r'^[a-zA-Z0-9_.]{3,20}$');
-  if (value.trim().isEmpty || !regex.hasMatch(value)) {
-    return "";
+  RegExp onlyNumbers = RegExp(r'^\d+$');
+
+  if (value.trim().isEmpty) {
+    return "Username cannot be empty";
+  } else if (!regex.hasMatch(value) || onlyNumbers.hasMatch(value)) {
+    return "Enter a valid username";
+  } else {
+    return null;
+  }
+}
+
+String? validatePincode(String value) {
+  RegExp regex = RegExp(r'^\d{4,10}$'); // Accepts 4 to 10 digits
+
+  if (value.trim().isEmpty) {
+    return "Pincode cannot be empty";
+  } else if (!regex.hasMatch(value)) {
+    return "Enter a valid pincode";
+  } else {
+    return null;
+  }
+}
+
+String? validateLandmark(String value) {
+  RegExp regex = RegExp(r'^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{3,50}$');
+  if (value.trim().isEmpty) {
+    return "Landmark cannot be empty";
+  } else if (!regex.hasMatch(value)) {
+    return "Enter a valid Landmark. Only letters and numbers allowed!";
   } else {
     return null;
   }
@@ -241,32 +279,110 @@ phoneValidation(String value) {
   return null;
 }
 
+FutureOr<String?> phoneNumberValidation(PhoneNumber? value) {
+  if (value == null || value.number.isEmpty) {
+    print('here');
+    return "Please enter your phone number.";
+  } else {
+    print('here2');
+  }
+
+  String pattern = r'^\d+$'; // Ensures only digits are present
+  RegExp regExp = RegExp(pattern);
+
+  if (!regExp.hasMatch(value.number)) {
+    return "Phone number can only contain digits.";
+  } else if (value.number.length >= 16) {
+    return "Phone number is too long.";
+  } else if (value.number.length < Constant.minimumRequiredMobileNumberLength) {
+    return "Phone number is too short.";
+  }
+
+  return null; // Valid input
+}
+
 validateName(String value) {
+  if (value.trim().isEmpty) {
+    return "Name cannot be empty";
+  }
   if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
     return 'Enter a valid name (only letters and spaces)';
   }
-  if (value.length < 3) {
+  if (value.length < 2) {
     return 'Name must be at least 2 characters long';
   }
   return null;
 }
 
-optionalPhoneValidation(String value) {
-  if (value.isEmpty) {
-    {
-      return null;
-    }
-  } else {
-    String pattern = r'[0-9]';
-    RegExp regExp = RegExp(pattern);
-    if (value.isEmpty ||
-        !regExp.hasMatch(value) ||
-        value.length > 15 ||
-        value.length < Constant.minimumRequiredMobileNumberLength) {
-      return "";
-    }
-    return null;
+validateCountry(String value) {
+  if (value.trim().isEmpty) {
+    return "Country cannot be empty";
   }
+  if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
+    return 'Enter a valid Country (only letters and spaces)';
+  }
+  if (value.length < 3) {
+    return 'Country must be at least 3 characters long';
+  }
+  return null;
+}
+
+validateState(String value) {
+  if (value.trim().isEmpty) {
+    return "State cannot be empty";
+  }
+  if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
+    return 'Enter a valid State (only letters and spaces)';
+  }
+  if (value.length < 3) {
+    return 'State must be at least 3 characters long';
+  }
+  return null;
+}
+
+validateCity(String value) {
+  if (value.trim().isEmpty) {
+    return "City cannot be empty";
+  }
+  if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
+    return 'Enter a valid City (only letters and spaces)';
+  }
+  if (value.length < 3) {
+    return 'City must be at least 2 characters long';
+  }
+  return null;
+}
+
+String? validateArea(String value) {
+  if (value.trim().isEmpty) {
+    return "Area cannot be empty";
+  }
+  if (!RegExp(r"^[a-zA-Z0-9\s-]+$").hasMatch(value)) {
+    return 'Enter a valid Area (only letters, numbers, spaces, and hyphens)';
+  }
+  if (value.length < 3) {
+    return 'Area must be at least 3 characters long';
+  }
+  return null;
+}
+
+String? optionalPhoneValidation(PhoneNumber? value) {
+  if (value == null || value.number.isEmpty) {
+    return null; // No validation needed if the field is empty
+  }
+
+  String pattern = r'^\d+$'; // Ensures only digits are present
+  RegExp regExp = RegExp(pattern);
+
+  if (!regExp.hasMatch(value.number)) {
+    return "Phone number can only contain digits.";
+  } else if (value.number.length > 15) {
+    return "Phone number is too long.";
+  } else if (value.number.length < Constant.minimumRequiredMobileNumberLength) {
+    return "Phone number is too short.";
+  }
+
+  return null; // Valid input or empty (optional field)
 }
 
 getUserLocation() async {

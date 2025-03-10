@@ -17,7 +17,7 @@ class ColorsRes {
     },
   );
 
-    static MaterialColor darkAppColor = const MaterialColor(
+  static MaterialColor darkAppColor = const MaterialColor(
     0xFF4A52D0,
     <int, Color>{
       50: Color(0xFF4A52D0),
@@ -110,7 +110,6 @@ class ColorsRes {
     statusBgColorCancelled,
     statusBgColorReturned,
   ];
-
 
   static Color statusTextColorPendingPayment = Color(0xffDD6B20);
   static Color statusTextColorReceived = Color(0xff319795);

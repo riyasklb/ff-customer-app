@@ -333,7 +333,7 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
               children: [
                 defaultImg(
                   image: "address_icon",
-                  iconColor: ColorsRes.appColor,
+                  iconColor: Theme.of(context).primaryColor,
                   height: 25,
                   width: 25,
                 ),
@@ -359,6 +359,8 @@ class _ConfirmLocationState extends State<ConfirmLocation> {
                     kMapCenter.longitude.toString(), false);
                 Constant.session.setData(SessionManager.keyLatitude,
                     kMapCenter.latitude.toString(), false);
+                Constant.session
+                    .setBoolData(SessionManager.isFetched, true, false);
                 if ((widget.from == "location" ||
                         widget.from == "home_screen" ||
                         widget.from == "bottom_sheet") &&

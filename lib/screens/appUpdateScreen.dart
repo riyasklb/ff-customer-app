@@ -38,7 +38,7 @@ class AppUpdateScreen extends StatelessWidget {
                   child: CustomTextLabel(
                     jsonKey: "time_to_update",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: ColorsRes.appColor,
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
                     softWrap: true,

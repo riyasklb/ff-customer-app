@@ -122,7 +122,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                       text: "#${order.id}",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                   ),
@@ -260,7 +260,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     height: 24,
                                     width: 24,
                                     child: CircularProgressIndicator(
-                                      color: ColorsRes.appColor,
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                   ),
                                 if (orderInvoiceProvider.orderInvoiceState !=
@@ -293,191 +293,212 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             order.items?.length ?? 0,
                             (index) {
                               OrderItem? orderItem = order.items?[index];
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                padding: EdgeInsetsDirectional.all(10),
-                                margin: EdgeInsetsDirectional.only(
-                                  bottom: 10,
-                                ),
-                                child: IntrinsicHeight(
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: setNetworkImg(
-                                          boxFit: BoxFit.cover,
-                                          image: orderItem?.imageUrl ?? "",
-                                          width: 90,
-                                          height: 90,
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    productDetailScreen,
+                                    arguments: [
+                                      orderItem!.productId.toString(),
+                                      orderItem.productName,
+                                      null,
+                                    ],
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).cardColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  padding: EdgeInsetsDirectional.all(10),
+                                  margin: EdgeInsetsDirectional.only(
+                                    bottom: 10,
+                                  ),
+                                  child: IntrinsicHeight(
+                                    child: Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          child: setNetworkImg(
+                                            boxFit: BoxFit.cover,
+                                            image: orderItem?.imageUrl ?? "",
+                                            width: 90,
+                                            height: 90,
+                                          ),
                                         ),
-                                      ),
-                                      getSizedBox(width: 10),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            CustomTextLabel(
-                                              text: orderItem?.productName,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: ColorsRes.mainTextColor,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            CustomTextLabel(
-                                              text: "x ${orderItem?.quantity}",
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            CustomTextLabel(
-                                              text:
-                                                  "${orderItem?.measurement} ${orderItem?.unit}",
-                                              style: TextStyle(
-                                                  color: ColorsRes
-                                                      .subTitleMainTextColor),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            CustomTextLabel(
-                                              text: orderItem?.price
-                                                  .toString()
-                                                  .currency,
-                                              style: TextStyle(
-                                                  color:
-                                                      ColorsRes.appColorBlack,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            if (orderItem?.activeStatus == "7")
+                                        getSizedBox(width: 10),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
                                               CustomTextLabel(
-                                                jsonKey:
-                                                    "order_status_display_names_cancelled",
+                                                text: orderItem?.productName,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                  color: ColorsRes.appColorRed,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      ColorsRes.mainTextColor,
                                                 ),
                                               ),
-                                            (orderItem?.activeStatus != "7" &&
-                                                    orderItem?.returnStatus ==
-                                                        "1" &&
-                                                    orderItem
-                                                            ?.returnRequested ==
-                                                        "1")
-                                                ? CustomTextLabel(
-                                                    jsonKey: "return_requested",
-                                                    style: TextStyle(
-                                                        color: ColorsRes
-                                                            .appColorRed),
-                                                  )
-                                                : (orderItem?.returnStatus ==
-                                                            "1" &&
-                                                        orderItem
-                                                                ?.returnRequested ==
-                                                            "3")
-                                                    ? Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          CustomTextLabel(
-                                                            jsonKey:
-                                                                "return_rejected",
-                                                            style: TextStyle(
-                                                              color: ColorsRes
-                                                                  .appColorRed,
-                                                            ),
-                                                          ),
-                                                          CustomTextLabel(
-                                                            text:
-                                                                "${getTranslatedValue(context, "return_reason")}: ${orderItem?.returnReason}",
-                                                            style: TextStyle(
-                                                                color: ColorsRes
-                                                                    .subTitleMainTextColor),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    : const SizedBox(),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        // height: 115,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(''),
-                                            if (orderItem?.cancelableStatus ==
-                                                    "1" &&
-                                                orderItem?.activeStatus != "7")
-                                              _buildCancelProductButton(
-                                                  orderItem!),
-                                            if (orderItem?.returnStatus == "1" &&
-                                                orderItem?.activeStatus !=
-                                                    "8" &&
-                                                orderItem?.activeStatus !=
-                                                    "7" &&
-                                                orderItem?.returnRequested !=
-                                                    "1")
-                                              _buildReturnProductButton(
-                                                orderItemId:
-                                                    orderItem!.id.toString(),
+                                              const SizedBox(
+                                                height: 5,
                                               ),
-                                            orderItem?.activeStatus == "6"
-                                                ? orderItem?.itemRating
-                                                            ?.length ==
-                                                        0
-                                                    ? _buildReviewButton(
-                                                        context: context,
-                                                        index: index,
-                                                      )
-                                                    : Wrap(
-                                                        direction:
-                                                            Axis.horizontal,
-                                                        alignment:
-                                                            WrapAlignment.end,
-                                                        crossAxisAlignment:
-                                                            WrapCrossAlignment
-                                                                .end,
-                                                        runAlignment:
-                                                            WrapAlignment.end,
-                                                        children: [
-                                                          Text(
-                                                            'You Rated ${orderItem?.itemRating?[0].rate}',
-                                                            style: TextStyle(
+                                              CustomTextLabel(
+                                                text:
+                                                    "x ${orderItem?.quantity}",
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              CustomTextLabel(
+                                                text:
+                                                    "${orderItem?.measurement} ${orderItem?.unit}",
+                                                style: TextStyle(
+                                                    color: ColorsRes
+                                                        .subTitleMainTextColor),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              CustomTextLabel(
+                                                text: orderItem?.price
+                                                    .toString()
+                                                    .currency,
+                                                style: TextStyle(
+                                                    color:
+                                                        ColorsRes.appColorBlack,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              if (orderItem?.activeStatus ==
+                                                  "7")
+                                                CustomTextLabel(
+                                                  jsonKey:
+                                                      "order_status_display_names_cancelled",
+                                                  style: TextStyle(
+                                                    color:
+                                                        ColorsRes.appColorRed,
+                                                  ),
+                                                ),
+                                              (orderItem?.activeStatus != "7" &&
+                                                      orderItem?.returnStatus ==
+                                                          "1" &&
+                                                      orderItem
+                                                              ?.returnRequested ==
+                                                          "1")
+                                                  ? CustomTextLabel(
+                                                      jsonKey:
+                                                          "return_requested",
+                                                      style: TextStyle(
+                                                          color: ColorsRes
+                                                              .appColorRed),
+                                                    )
+                                                  : (orderItem?.returnStatus ==
+                                                              "1" &&
+                                                          orderItem
+                                                                  ?.returnRequested ==
+                                                              "3")
+                                                      ? Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomTextLabel(
+                                                              jsonKey:
+                                                                  "return_rejected",
+                                                              style: TextStyle(
                                                                 color: ColorsRes
-                                                                    .appColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          ),
-                                                          Icon(
-                                                            Icons.star,
-                                                            color: ColorsRes
-                                                                .appColor,
-                                                            size: 20,
-                                                          )
-                                                        ],
-                                                      )
-                                                : Text('')
-                                          ],
+                                                                    .appColorRed,
+                                                              ),
+                                                            ),
+                                                            CustomTextLabel(
+                                                              text:
+                                                                  "${getTranslatedValue(context, "return_reason")}: ${orderItem?.returnReason}",
+                                                              style: TextStyle(
+                                                                  color: ColorsRes
+                                                                      .subTitleMainTextColor),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      : const SizedBox(),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          // height: 115,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(''),
+                                              if (orderItem?.cancelableStatus ==
+                                                      "1" &&
+                                                  orderItem?.activeStatus !=
+                                                      "7")
+                                                _buildCancelProductButton(
+                                                    orderItem!),
+                                              if (orderItem?.returnStatus == "1" &&
+                                                  orderItem?.activeStatus !=
+                                                      "8" &&
+                                                  orderItem?.activeStatus !=
+                                                      "7" &&
+                                                  orderItem?.returnRequested !=
+                                                      "1")
+                                                _buildReturnProductButton(
+                                                  orderItemId:
+                                                      orderItem!.id.toString(),
+                                                ),
+                                              orderItem?.activeStatus == "6"
+                                                  ? orderItem?.itemRating
+                                                              ?.length ==
+                                                          0
+                                                      ? _buildReviewButton(
+                                                          context: context,
+                                                          index: index,
+                                                        )
+                                                      : Wrap(
+                                                          direction:
+                                                              Axis.horizontal,
+                                                          alignment:
+                                                              WrapAlignment.end,
+                                                          crossAxisAlignment:
+                                                              WrapCrossAlignment
+                                                                  .end,
+                                                          runAlignment:
+                                                              WrapAlignment.end,
+                                                          children: [
+                                                            Text(
+                                                              'You Rated ${orderItem?.itemRating?[0].rate}',
+                                                              style: TextStyle(
+                                                                  color: ColorsRes
+                                                                      .appColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                            Icon(
+                                                              Icons.star,
+                                                              color: ColorsRes
+                                                                  .appColor,
+                                                              size: 20,
+                                                            )
+                                                          ],
+                                                        )
+                                                  : Text('')
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -690,7 +711,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     text: order.finalTotal?.currency,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      color: ColorsRes.appColor,
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                   ),
                                 ],
@@ -842,13 +863,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }) {
     return GestureDetector(
       onTap: () async {
-       final result=  await openRatingDialog(order: order, index: index, context: context);
+        final result = await openRatingDialog(
+            order: order, index: index, context: context);
 
-      if (result !=null){
-        callApi();
-      }
-       print('result llog is --------------> $result');
-
+        if (result != null) {
+          callApi();
+        }
+        print('result llog is --------------> $result');
       },
       child: Container(
         alignment: Alignment.center,

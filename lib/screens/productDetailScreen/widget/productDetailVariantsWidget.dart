@@ -13,76 +13,84 @@ Widget ProductDetailVariantsWidget({
         EdgeInsetsDirectional.only(top: padding ?? 0, bottom: padding ?? 0),
     child: Padding(
       padding: EdgeInsetsDirectional.only(start: padding ?? 0),
-      child: 
-      GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount:  5,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: (1 / 0.65),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: (1 / 0.65),
+        ),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: product.variants.length,
+        itemBuilder: (context, index) {
+          return Consumer<SelectedVariantItemProvider>(
+              builder: (context, SelectedVariantItemProvider, child) {
+            return InkWell(
+              borderRadius: BorderRadius.circular(5),
+              onTap: () {
+                SelectedVariantItemProvider.setSelectedIndex(index);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                decoration: BoxDecoration(
+                  color: SelectedVariantItemProvider.getSelectedIndex() != index
+                      ? ColorsRes.subTitleMainTextColor.withOpacity(0.1)
+                      : ColorsRes.mainTextColor.withOpacity(0.07),
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                      color: SelectedVariantItemProvider.getSelectedIndex() !=
+                              index
+                          ? ColorsRes.subTitleMainTextColor.withOpacity(0.3)
+                          : ColorsRes.mainTextColor,
+                      width: 1),
                 ),
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: product.variants.length,
-                itemBuilder: (context, index) {
-                  return Consumer<SelectedVariantItemProvider>(
-                    builder: (context, SelectedVariantItemProvider, child) {
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(5),
-                        onTap: () {
-                          print('hello');
-                          SelectedVariantItemProvider.setSelectedIndex(index);
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          decoration: BoxDecoration(
-                            color: SelectedVariantItemProvider.getSelectedIndex() != index ? ColorsRes.subTitleMainTextColor.withOpacity(0.1) : Theme.of(context).primaryColor.withOpacity(0.08),
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: SelectedVariantItemProvider.getSelectedIndex() != index ? ColorsRes.subTitleMainTextColor.withOpacity(0.3) : Theme.of(context).primaryColor.withOpacity(0.8), width: 1),
-                          ),
-                          child: 
-                          // RichText(text: TextSpan(
-                          //   children: [
-                          //     TextSpan(
-                          //                       style: TextStyle(
-                          //                           fontSize: 15,
-                          //                           color:
-                          //                               ColorsRes.mainTextColor,
-                          //                           decorationThickness: 2),
-                          //                       text:
-                          //                           "${product.variants[index].measurement} ",
-                          //                     ),
-                          //                     WidgetSpan(
-                          //                       child: CustomTextLabel(
-                          //                         text: product.variants[index]
-                          //                             .stockUnitName,
-                          //                         softWrap: true,
-                          //                         //superscript is usually smaller in size
-                          //                         // textScaleFactor: 0.7,
-                          //                         style: TextStyle(
-                          //                           fontSize: 14,
-                          //                           color:
-                          //                               ColorsRes.mainTextColor,
-                          //                         ),
-                          //                       ),
-                          //                     ),
-                          //   ]
-                          // ))
-                          
-                          
-                          Text(
-                            "${product.variants[index].measurement.trim()} ${product.variants[index].stockUnitName}", maxLines: 1, overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: SelectedVariantItemProvider.getSelectedIndex() != index  ? ColorsRes.subTitleMainTextColor : Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                  );
-                },
+                child:
+                    // RichText(text: TextSpan(
+                    //   children: [
+                    //     TextSpan(
+                    //                       style: TextStyle(
+                    //                           fontSize: 15,
+                    //                           color:
+                    //                               ColorsRes.mainTextColor,
+                    //                           decorationThickness: 2),
+                    //                       text:
+                    //                           "${product.variants[index].measurement} ",
+                    //                     ),
+                    //                     WidgetSpan(
+                    //                       child: CustomTextLabel(
+                    //                         text: product.variants[index]
+                    //                             .stockUnitName,
+                    //                         softWrap: true,
+                    //                         //superscript is usually smaller in size
+                    //                         // textScaleFactor: 0.7,
+                    //                         style: TextStyle(
+                    //                           fontSize: 14,
+                    //                           color:
+                    //                               ColorsRes.mainTextColor,
+                    //                         ),
+                    //                       ),
+                    //                     ),
+                    //   ]
+                    // ))
+
+                    Text(
+                  "${product.variants[index].measurement.trim()} ${product.variants[index].stockUnitName}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color:
+                        SelectedVariantItemProvider.getSelectedIndex() != index
+                            ? ColorsRes.subTitleMainTextColor
+                            : ColorsRes.mainTextColor,
+                  ),
+                ),
               ),
+            );
+          });
+        },
+      ),
       // child: GestureDetector(
       //   onTap: () {
       //     print('dropdown-button-pressed');
@@ -228,7 +236,7 @@ Widget ProductDetailVariantsWidget({
       //                                     overflow: TextOverflow.ellipsis,
       //                                     style: TextStyle(
       //                                         fontSize: 17,
-      //                                         color: ColorsRes.appColor,
+      //                                         color: Theme.of(context).primaryColor,
       //                                         fontWeight: FontWeight.w500),
       //                                   ),
       //                                 ],

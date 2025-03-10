@@ -181,7 +181,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                                     jsonKey: "go_to_category",
                                     textAlign: TextAlign.end,
                                     style: TextStyle(
-                                        color: ColorsRes.appColor,
+                                        color: Theme.of(context).primaryColor,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   )
@@ -190,7 +190,8 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                                         jsonKey: "go_to_product",
                                         textAlign: TextAlign.end,
                                         style: TextStyle(
-                                            color: ColorsRes.appColor,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       )
@@ -199,7 +200,8 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                                             jsonKey: "visit_web_link",
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
-                                                color: ColorsRes.appColor,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold),
                                           )
