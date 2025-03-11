@@ -182,7 +182,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         ),
                       ),
 
-                      /// Download invoice button
+                      // /// Download invoice button
                       Consumer<OrderInvoiceProvider>(
                         builder: (context, orderInvoiceProvider, child) {
                           return Container(
@@ -209,7 +209,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                             ? (await ExternalPath
                                                 .getExternalStoragePublicDirectory(
                                                     ExternalPath
-                                                        .DIRECTORY_DOWNLOADS))
+                                                        .DIRECTORY_DOWNLOAD))
                                             : (await getApplicationDocumentsDirectory())
                                                 .path;
 

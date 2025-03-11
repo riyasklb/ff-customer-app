@@ -44,6 +44,8 @@ class CartListProvider extends ChangeNotifier {
     if (Constant.session.isUserLoggedIn()) {
       cartList.clear();
       try {
+
+        print('data----------------------home get all cart------------------------');
         Map<String, String> params = await Constant.getProductsDefaultParams();
         Map<String, dynamic> getData =
             await getCartListApi(context: context, params: params);

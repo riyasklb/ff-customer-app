@@ -19,6 +19,9 @@ Future getProductListApi(
 Future getProductDetailApi(
     {required BuildContext context,
     required Map<String, dynamic> params}) async {
+
+
+        print('=-----------------------getProductDetailApi-----------------------------------');
   try {
     var data = json.decode(await sendApiRequest(
         apiName: ApiAndParams.apiProductDetail,

@@ -15,111 +15,105 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  ScrollController scrollController = ScrollController();
-
-  scrollListener() {
-    // _scrollController detects weather screen scroll done 30% or scrolled more then 600px then bottom add to cart button will be visible
-    if (scrollController.position.pixels > 600) {
-      if (mounted) {
-        context.read<ProductDetailProvider>().changeVisibility(true);
-      }
-    } else {
-      if (mounted) {
-        context.read<ProductDetailProvider>().changeVisibility(false);
-      }
-    }
-  }
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    //fetch productList from api
-    Future.delayed(Duration.zero).then((value) async {
-      if (mounted) {
-        scrollController.addListener(scrollListener);
-        try {
-          Map<String, String> params =
-              await Constant.getProductsDefaultParams();
-          if (RegExp(r'\d').hasMatch(widget.id)) {
-            params[ApiAndParams.id] = widget.id;
-          } else {
-            params[ApiAndParams.slug] = widget.id;
-          }
+    scrollController.addListener(scrollListener);
+    fetchProductDetails();
+  }
 
-          context.read<RatingListProvider>().getRatingApiProvider(
-            params: {ApiAndParams.productId: widget.id.toString()},
-            context: context,
-            limit: "5",
-          ).then(
-            (value) async {
-              context.read<RatingListProvider>().getRatingImagesApiProvider(
-                  params: {ApiAndParams.productId: widget.id.toString()},
-                  limit: "5",
-                  context: context).then(
-                (value) async => await context
-                    .read<ProductDetailProvider>()
-                    .getProductDetailProvider(
-                      context: context,
-                      params: params,
-                    ),
-              );
-            },
-          );
-        } catch (_) {}
+  void scrollListener() {
+    bool isVisible = scrollController.position.pixels > 600;
+    if (mounted) {
+      context.read<ProductDetailProvider>().changeVisibility(isVisible);
+    }
+  }
+
+  Future<void> fetchProductDetails() async {
+    if (!mounted) return;
+
+    try {
+      Map<String, String> params = await Constant.getProductsDefaultParams();
+      if (RegExp(r'\d').hasMatch(widget.id)) {
+        params[ApiAndParams.id] = widget.id;
+      } else {
+        params[ApiAndParams.slug] = widget.id;
       }
-    });
+
+      await Future.wait([
+        context.read<RatingListProvider>().getRatingApiProvider(
+              params: {ApiAndParams.productId: widget.id.toString()},
+              context: context,
+              limit: "5",
+            ),
+        context.read<RatingListProvider>().getRatingImagesApiProvider(
+              params: {ApiAndParams.productId: widget.id.toString()},
+              limit: "5",
+              context: context,
+            ),
+      ]);
+
+      await context
+          .read<ProductDetailProvider>()
+          .getProductDetailProvider(context: context, params: params);
+    } catch (e) {
+      debugPrint("Error fetching product details: $e");
+    }
   }
 
   @override
-  dispose() {
+  void dispose() {
+    scrollController.removeListener(scrollListener);
+    scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:
-          (context.watch<CartListProvider>().cartList.length > 0)
-              ? CartFloating()
-              : null,
+      floatingActionButton: context.watch<CartListProvider>().cartList.isNotEmpty
+          ? CartFloating()
+          : null,
       appBar: getAppBar(
         context: context,
         title: SizedBox.shrink(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         actions: [
           Consumer<ProductDetailProvider>(
-              builder: (context, productDetailProvider, child) {
-            if (productDetailProvider.productDetailState ==
-                ProductDetailState.loaded) {
-              ProductData product = productDetailProvider.productDetail.data;
-              return GestureDetector(
-                onTap: () async {
-                  final box = context.findRenderObject() as RenderBox?;
+            builder: (context, productDetailProvider, child) {
+              if (productDetailProvider.productDetailState ==
+                  ProductDetailState.loaded) {
+                ProductData product = productDetailProvider.productDetail.data;
+                return GestureDetector(
+                  onTap: () async {
+                    final RenderBox? box =
+                        context.findRenderObject() as RenderBox?;
+                    final Rect sharePositionOrigin =
+                        box!.localToGlobal(Offset.zero) & box.size;
 
-                  final sharePositionOrigin =
-                      box!.localToGlobal(Offset.zero) & box.size;
-
-                  await Share.share(
-                    "${product.name}\n\n${Constant.shareUrl}product/${product.slug}",
-                    subject: "Share app",
-                    sharePositionOrigin: sharePositionOrigin,
-                  );
-                },
-                child: defaultImg(
-                    image: "share_icon",
-                    height: 24,
-                    width: 24,
-                    padding: const EdgeInsetsDirectional.only(
-                      top: 5,
-                      bottom: 5,
-                      end: 15,
-                    ),
-                    iconColor: Theme.of(context).primaryColor),
-              );
-            } else {
+                    await Share.share(
+                      "${product.name}\n\n${Constant.shareUrl}product/${product.slug}",
+                      subject: "Share app",
+                      sharePositionOrigin: sharePositionOrigin,
+                    );
+                  },
+                  child: defaultImg(
+                      image: "share_icon",
+                      height: 24,
+                      width: 24,
+                      padding: const EdgeInsetsDirectional.only(
+                        top: 5,
+                        bottom: 5,
+                        end: 15,
+                      ),
+                      iconColor: Theme.of(context).primaryColor),
+                );
+              }
               return SizedBox.shrink();
-            }
-          }),
+            },
+          ),
           Consumer<ProductDetailProvider>(
             builder: (context, productDetailProvider, child) {
               if (productDetailProvider.productDetailState ==
@@ -128,22 +122,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 return GestureDetector(
                   onTap: () async {
                     if (Constant.session.isUserLoggedIn()) {
-                      Map<String, String> params = {};
-                      params[ApiAndParams.productId] = product.id.toString();
+                      Map<String, String> params = {
+                        ApiAndParams.productId: product.id.toString()
+                      };
 
-                      await context
+                      bool success = await context
                           .read<ProductAddOrRemoveFavoriteProvider>()
                           .getProductAddOrRemoveFavorite(
                               params: params,
                               context: context,
-                              productId: int.parse(product.id))
-                          .then((value) {
-                        if (value) {
-                          context
-                              .read<ProductWishListProvider>()
-                              .addRemoveFavoriteProduct(widget.productListItem);
-                        }
-                      });
+                              productId: int.parse(product.id));
+                      if (success) {
+                        context
+                            .read<ProductWishListProvider>()
+                            .addRemoveFavoriteProduct(widget.productListItem);
+                      }
                     } else {
                       loginUserAccount(context, "wishlist");
                     }
@@ -162,9 +155,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                 );
-              } else {
-                return SizedBox.shrink();
               }
+              return SizedBox.shrink();
             },
           ),
         ],
@@ -173,133 +165,88 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         children: [
           Consumer<ProductDetailProvider>(
             builder: (context, productDetailProvider, child) {
-              if (productDetailProvider.productDetailState ==
-                  ProductDetailState.loaded) {
-                return ChangeNotifierProvider<SelectedVariantItemProvider>(
-                  create: (context) => SelectedVariantItemProvider(),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          controller: scrollController,
-                          child: ProductDetailWidget(
-                            context: context,
-                            product: productDetailProvider.productDetail.data,
+              switch (productDetailProvider.productDetailState) {
+                case ProductDetailState.loaded:
+                  return ChangeNotifierProvider<SelectedVariantItemProvider>(
+                    create: (_) => SelectedVariantItemProvider(),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            child: ProductDetailWidget(
+                              context: context,
+                              product: productDetailProvider.productDetail.data,
+                            ),
                           ),
                         ),
-                      ),
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        width: context.width,
-                        // Example width
-                        height: productDetailProvider.expanded == true ? 70 : 0,
-                        child: productDetailProvider.expanded == true
-                            ? Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadiusDirectional.only(
-                                    topStart: Radius.circular(10),
-                                    topEnd: Radius.circular(10),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: ColorsRes.subTitleMainTextColor,
-                                      offset: Offset(1, 1),
-                                      blurRadius: 5,
-                                      spreadRadius: 0.1,
-                                    )
-                                  ],
+                        if (productDetailProvider.expanded)
+                          AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                            width: context.width,
+                            height: 70,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadiusDirectional.only(
+                                  topStart: Radius.circular(10),
+                                  topEnd: Radius.circular(10),
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadiusDirectional.only(
-                                    topStart: Radius.circular(10),
-                                    topEnd: Radius.circular(10),
-                                  ),
-                                  child: ProductDetailAddToCartButtonWidget(
-                                      context: context,
-                                      product:
-                                          productDetailProvider.productData,
-                                      bgColor: Theme.of(context).cardColor,
-                                      padding: 10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: ColorsRes.subTitleMainTextColor,
+                                    offset: Offset(1, 1),
+                                    blurRadius: 5,
+                                    spreadRadius: 0.1,
+                                  )
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadiusDirectional.only(
+                                  topStart: Radius.circular(10),
+                                  topEnd: Radius.circular(10),
                                 ),
-                              )
-                            : null,
-                      ),
-                    ],
-                  ),
-                );
-              } else if (productDetailProvider.productDetailState ==
-                      ProductDetailState.loading ||
-                  productDetailProvider.productDetailState ==
-                      ProductDetailState.initial) {
-                return getProductDetailShimmer(context: context);
-              } else if (productDetailProvider.productDetailState ==
-                  ProductDetailState.error) {
-                return DefaultBlankItemMessageScreen(
-                  title: "oops",
-                  description:
-                      "product_is_either_unavailable_or_does_not_exist",
-                  image: "no_product_icon",
-                  buttonTitle: "go_back",
-                  callback: () {
-                    Navigator.pop(context);
-                  },
-                );
-              } else {
-                return NoInternetConnectionScreen(
-                  height: context.height * 0.65,
-                  message: productDetailProvider.message,
-                  callback: () async {
-                    if (mounted) {
-                      try {
-                        Map<String, String> params =
-                            await Constant.getProductsDefaultParams();
-                        params[ApiAndParams.id] = widget.id;
+                                child: ProductDetailAddToCartButtonWidget(
+                                  context: context,
+                                  product: productDetailProvider.productData,
+                                  bgColor: Theme.of(context).cardColor,
+                                  padding: 10,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
 
-                        context.read<RatingListProvider>().getRatingApiProvider(
-                          params: {
-                            ApiAndParams.productId: widget.id.toString()
-                          },
-                          context: context,
-                          limit: "5",
-                        ).then(
-                          (value) async {
-                            context
-                                .read<RatingListProvider>()
-                                .getRatingImagesApiProvider(params: {
-                              ApiAndParams.productId: widget.id.toString()
-                            }, limit: "5", context: context).then(
-                              (value) async => await context
-                                  .read<ProductDetailProvider>()
-                                  .getProductDetailProvider(
-                                    context: context,
-                                    params: params,
-                                  ),
-                            );
-                          },
-                        );
-                      } catch (_) {}
-                    }
-                  },
-                );
+                case ProductDetailState.loading:
+                case ProductDetailState.initial:
+                  return getProductDetailShimmer(context: context);
+
+                case ProductDetailState.error:
+                  return DefaultBlankItemMessageScreen(
+                    title: "Oops",
+                    description: "Product is either unavailable or does not exist",
+                    image: "no_product_icon",
+                    buttonTitle: "Go Back",
+                    callback: () => Navigator.pop(context),
+                  );
+
+                default:
+                  return NoInternetConnectionScreen(
+                    height: context.height * 0.65,
+                    message: productDetailProvider.message,
+                    callback: fetchProductDetails,
+                  );
               }
             },
           ),
-          // if (context.watch<CartProvider>().totalItemsCount > 0)
-          //   PositionedDirectional(
-          //     bottom: context.watch<ProductDetailProvider>().expanded == true
-          //         ? 70
-          //         : 0,
-          //     start: 0,
-          //     end: 0,
-          //     child: CartOverlay(),
-          //   ),
         ],
       ),
     );
   }
 
-  getProductDetailShimmer({required BuildContext context}) {
+  Widget getProductDetailShimmer({required BuildContext context}) {
     return CustomShimmer(
       height: context.height,
       width: context.width,
